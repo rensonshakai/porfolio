@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reny Solutions · portfolio</title>
+  <title>Reny Solutions · portfolio + blog</title>
   <!-- Font Awesome -->
-   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    
     * {
       margin: 0;
       padding: 0;
@@ -292,7 +290,6 @@
       font-weight: 600;
     }
 
-    /* Projects / portfolio gallery */
     .project-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -396,6 +393,119 @@
       align-items: center;
     }
 
+    /* ----- blog styles ----- */
+    .blog-card {
+      background: white;
+      border-radius: 28px;
+      padding: 2rem 2rem 1.8rem;
+      border: 1px solid #edf2f7;
+      margin-bottom: 2rem;
+    }
+
+    .blog-card h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      background: linear-gradient(135deg, #1e293b, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+    }
+
+    .blog-card .blog-meta {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eef2f6;
+      padding-bottom: 0.75rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .blog-card .blog-content {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #1e293b;
+    }
+
+    .blog-content h3 {
+      font-size: 1.5rem;
+      margin: 1.8rem 0 0.8rem 0;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .blog-content h4 {
+      font-size: 1.2rem;
+      margin: 1.5rem 0 0.5rem 0;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .blog-content p {
+      margin: 0 0 1rem 0;
+    }
+
+    .blog-content ul, .blog-content ol {
+      margin: 0.5rem 0 1.2rem 1.8rem;
+    }
+
+    .blog-content li {
+      margin-bottom: 0.3rem;
+    }
+
+    .blog-content .highlight-box {
+      background: #f8fafc;
+      border-left: 4px solid #2563eb;
+      padding: 1rem 1.5rem;
+      border-radius: 16px;
+      margin: 1.2rem 0;
+    }
+
+    .blog-content .service-grid-mini {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .blog-content .service-grid-mini span {
+      background: #f1f5f9;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      display: inline-block;
+    }
+
+    .blog-content .blog-image-placeholder {
+      background: #e9eef3;
+      border-radius: 24px;
+      padding: 1.5rem;
+      text-align: center;
+      color: #64748b;
+      margin: 1.2rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+
+    .blog-content .blog-image-placeholder i {
+      font-size: 2.5rem;
+      color: #2563eb;
+    }
+
+    .blog-content .two-col-blog {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.2rem 0;
+    }
+
     @media (max-width: 800px) {
       .grid-2col {
         grid-template-columns: 1fr;
@@ -410,9 +520,14 @@
       .hero-card h1 {
         font-size: 2.2rem;
       }
+      .blog-card h2 {
+        font-size: 1.8rem;
+      }
+      .two-col-blog {
+        grid-template-columns: 1fr !important;
+      }
     }
   </style>
-  
 </head>
 <body>
 <div class="container">
@@ -422,14 +537,11 @@
     <div class="logo"><i class="fas fa-cubes"></i> Reny Solutions</div>
     <div class="nav-links">
       <button class="nav-btn active" data-page="home"><i class="fas fa-home"></i> Home</button>
+      <button class="nav-btn" data-page="blog"><i class="fas fa-newspaper"></i> Blog</button>
       <button class="nav-btn" data-page="projects"><i class="fas fa-folder-open"></i> Projects</button>
-      <button class="nav-btn" data-page="contact"><i class="fas fa-envelope"></i> Contact Us</button>
-      
-               <a href="https://rensonshakai.vercel.app/">Portfolio</a>
-               
+      <button class="nav-btn" data-page="contact"><i class="fas fa-envelope"></i> Contact</button>
     </div>
   </header>
-  
 
   <!-- ========== HOME PAGE ========== -->
   <section id="page-home" class="page-section active">
@@ -471,6 +583,97 @@
     </div>
   </section>
 
+  <!-- ========== BLOG PAGE (full blog post) ========== -->
+  <section id="page-blog" class="page-section">
+    <div class="blog-card">
+      <h2><i class="fas fa-pen-fancy" style="background: none; -webkit-text-fill-color: #2563eb; margin-right: 10px;"></i>Reny Creative Studio</h2>
+      <div class="blog-meta">
+        <span><i class="far fa-calendar-alt"></i> August 7, 2026</span>
+        <span><i class="far fa-clock"></i> 6 min read</span>
+        <span><i class="fas fa-tag"></i> Photography, Branding</span>
+      </div>
+
+      <div class="blog-content">
+        <p style="font-size: 1.15rem; font-weight: 500;">Professional photography is more than simply taking pictures—it's about telling stories, capturing emotions, preserving milestones, and creating lasting visual legacies that can be enjoyed for generations.</p>
+        <p>Whether you're a growing family wanting to document special memories, a professional seeking polished corporate headshots, an engaged couple celebrating a new chapter, or a business owner showcasing products and services, investing in professional photography is an investment in memories that never lose value.</p>
+
+        <div class="highlight-box">
+          <p><strong>At Reny Creative Studio</strong>, we specialize in creating stunning, high-quality imagery tailored to every client's unique vision and needs. From family portraits and maternity photography to corporate headshots, branding sessions, engagement photography, and product photography, our mission is to transform important moments into timeless works of art.</p>
+          <p>Located conveniently in <strong>Nakuru</strong>, our studio combines technical expertise, creativity, and a client-centered approach to deliver an exceptional photography experience from start to finish. Every session is thoughtfully planned to ensure you feel comfortable, confident, and excited throughout the process.</p>
+        </div>
+
+        <h3>Why Professional Photography Matters</h3>
+        <p>Professional photography offers something different: intentional, carefully crafted images designed to stand the test of time. When you invest in a professional photography session, you're gaining access to:</p>
+        <ul>
+          <li><strong>Superior Image Quality</strong> — Professional cameras, lenses, lighting equipment, and editing techniques produce images with exceptional clarity, color accuracy, and detail.</li>
+          <li><strong>Expert Guidance</strong> — Many people feel nervous in front of a camera. Professional photographers understand how to direct poses, create natural expressions, and capture authentic moments that look effortless.</li>
+          <li><strong>Customized Sessions</strong> — Every individual, family, couple, and business has unique goals. A professional session is tailored specifically to your vision and desired outcome.</li>
+          <li><strong>Lasting Value</strong> — Professional portraits become treasured keepsakes, family heirlooms, marketing assets, and personal branding tools that continue providing value for years.</li>
+          <li><strong>Stress-Free Experience</strong> — Rather than worrying about camera settings, lighting, angles, or editing, you can focus entirely on enjoying the experience while professionals handle the technical details.</li>
+        </ul>
+
+        <div class="blog-image-placeholder">
+          <i class="fas fa-camera-retro"></i> <span>Studio setup · professional lighting & comfort</span>
+        </div>
+
+        <h3>The Studio Experience at Reny Creative Studio</h3>
+        <p>One of the biggest advantages of choosing Reny Creative Studio is the complete studio experience we provide. Our goal is to make every client feel welcome, comfortable, and confident from the moment they walk through our doors.</p>
+        <p>We understand that photography can feel intimidating, especially if you've never participated in a professional photoshoot before. That's why we've designed every aspect of our studio and workflow to ensure a seamless and enjoyable experience.</p>
+
+        <h4>A Comfortable, Climate-Controlled Environment</h4>
+        <p>Our climate-controlled studio provides the perfect environment for photography year-round. Whether it's a hot summer day or a rainy afternoon, you'll enjoy a comfortable atmosphere that allows you to focus entirely on your session. This controlled environment also ensures consistent lighting conditions, helping us create beautiful images regardless of outdoor weather conditions.</p>
+
+        <h4>Professional Lighting Equipment</h4>
+        <p>Lighting is one of the most important factors in photography. At Reny Creative Studio, we utilize professional-grade lighting equipment to create flattering, high-quality portraits that highlight your best features. Our advanced lighting systems allow us to achieve a variety of styles, from bright and modern corporate headshots to dramatic artistic portraits. Professional lighting helps eliminate harsh shadows, enhances skin tones, and ensures every image meets the highest quality standards.</p>
+
+        <h4>Relaxing Client Lounge</h4>
+        <p>Our welcoming client lounge offers a comfortable space where you can prepare for your session, review ideas, or simply unwind before stepping in front of the camera. Family members and guests can also relax comfortably while waiting.</p>
+
+        <h3>Photography Services Available at Reny Creative</h3>
+        <div class="two-col-blog">
+          <div>
+            <p><i class="fas fa-users" style="color: #2563eb; width: 1.8rem;"></i> <strong>Family Portrait Photography</strong><br>Our family sessions focus on creating genuine interactions, natural smiles, and timeless images that celebrate your family's unique story.</p>
+            <p><i class="fas fa-briefcase" style="color: #2563eb; width: 1.8rem;"></i> <strong>Corporate Headshots & Personal Branding</strong><br>High-quality headshots help professionals make strong first impressions on LinkedIn, websites, and marketing materials.</p>
+          </div>
+          <div>
+            <p><i class="fas fa-ring" style="color: #2563eb; width: 1.8rem;"></i> <strong>Engagement Photography</strong><br>Our engagement sessions celebrate your relationship through beautiful, authentic photography that reflects your personalities and connection.</p>
+            <p><i class="fas fa-baby" style="color: #2563eb; width: 1.8rem;"></i> <strong>Baby Shower Photography</strong><br>Our expectancy sessions celebrate this remarkable journey with elegant, meaningful portraits that capture the anticipation and beauty of motherhood.</p>
+            <p><i class="fas fa-box" style="color: #2563eb; width: 1.8rem;"></i> <strong>Product Photography</strong><br>Businesses need professional imagery to compete effectively online. Our product photography services help brands showcase products with clarity and visual appeal.</p>
+          </div>
+        </div>
+
+        <h3>How to Prepare for Your Session: Top 3 Tips</h3>
+        <ol>
+          <li><strong>Choose Your Wardrobe Carefully</strong> — Choose outfits that fit well, stick to timeless styles, avoid large logos, select colors that complement your skin tone, and iron clothing beforehand.</li>
+          <li><strong>Coordinate Outfits Without Matching Exactly</strong> — Instead of everyone wearing the same color, choose complementary shades like navy, cream, beige, earth tones, soft pastels, or neutral palettes.</li>
+          <li><strong>Bring Meaningful Props</strong> — Family heirlooms, children's favorite books or toys, sports equipment, musical instruments, business tools, engagement accessories, or ultrasound images for maternity sessions.</li>
+        </ol>
+
+        <h3>What Happens After Your Session?</h3>
+        <p>Our editing process ensures every final image reflects the high standards that define Reny Creative. After editing is complete, you'll receive access to your gallery where you can review, select, download, and share your favorite images.</p>
+
+        <h3>Why Clients in Nakuru Choose Reny Creative</h3>
+        <p>Clients choose Reny Creative because we combine technical expertise, artistic creativity, and exceptional customer service. Our commitment includes: personalized attention, professional equipment, comfortable studio environment, high-quality editing, flexible session options, consistent results, and friendly, experienced photographers.</p>
+
+        <div class="highlight-box" style="border-left-color: #7c3aed;">
+          <p><strong>Invest in Memories That Last a Lifetime</strong><br>
+          Long after trends change, technology evolves, and years pass, photographs remain one of the most valuable ways to revisit life's most meaningful moments. At Reny Creative, we're honored to help individuals, families, couples, and businesses throughout Nakuru create images they'll cherish for years to come.</p>
+          <p style="margin-top: 0.5rem;"><i class="fas fa-phone-alt" style="color: #2563eb;"></i> 0741459599 &nbsp;·&nbsp; <i class="fas fa-envelope" style="color: #2563eb;"></i> renylesh9@gmail.com</p>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+          <button class="btn-primary" onclick="document.querySelector('[data-page=\'contact\']').click();"><i class="fas fa-calendar-check"></i> Book your session</button>
+          <button class="btn-outline"><i class="fas fa-images"></i> View portfolio</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-banner" style="background: linear-gradient(135deg, #2563eb, #7c3aed);">
+      <div><h2>📸 Ready to capture your story?</h2><p>Contact us today and let's create something timeless.</p></div>
+      <div><button class="btn-primary" style="background: white; color: #1e293b;" onclick="document.querySelector('[data-page=\'contact\']').click();"><i class="fas fa-arrow-right"></i> Get in touch</button></div>
+    </div>
+  </section>
+
   <!-- ========== PROJECTS PAGE ========== -->
   <section id="page-projects" class="page-section">
     <div class="card">
@@ -507,11 +710,9 @@
       <div id="projectFeedback" style="margin-top:1rem;"></div>
     </div>
 
-    <!-- project gallery -->
     <div class="card" style="margin-top: 2rem;">
       <div class="card-title"><i class="fas fa-th-large" style="color: #7c3aed;"></i> Our projects</div>
       <div id="projectGallery" class="project-grid">
-        <!-- sample projects -->
         <div class="project-card">
           <div class="project-thumb" style="background: #dbeafe;"><i class="fas fa-camera" style="font-size: 4rem; color: #2563eb;"></i></div>
           <div class="project-body">
@@ -546,14 +747,9 @@
         </div>
       </div>
     </div>
-
-    <div class="cta-banner" style="background: linear-gradient(135deg, #2563eb, #7c3aed);">
-      <div><h2>📂 View our full portfolio</h2><p>We have delivered 100+ successful projects.</p></div>
-      <div><button class="btn-primary" style="background: white; color: #1e293b;" onclick="alert('CTA: full portfolio showcase')"><i class="fas fa-arrow-right"></i> Explore</button></div>
-    </div>
   </section>
 
-  <!-- ========== CONTACT US PAGE ========== -->
+  <!-- ========== CONTACT PAGE ========== -->
   <section id="page-contact" class="page-section">
     <div class="grid-2col">
       <div class="card">
@@ -588,27 +784,27 @@
       <div class="card">
         <div class="card-title"><i class="fas fa-address-card" style="color: #7c3aed;"></i> Contact info</div>
         <div style="display: flex; flex-direction: column; gap: 1.2rem;">
-          <div style="display:flex; align-items:center; gap:1rem; font-size:1.05rem;"><i style="width:2rem; color:#2563eb;" class="fas fa-envelope"></i> hello@renysolutions.com</div>
-          <div style="display:flex; align-items:center; gap:1rem; font-size:1.05rem;"><i style="width:2rem; color:#2563eb;" class="fas fa-phone-alt"></i> +1 (800) 555‑RENY</div>
-          <div style="display:flex; align-items:center; gap:1rem; font-size:1.05rem;"><i style="width:2rem; color:#2563eb;" class="fas fa-map-marker-alt"></i> 123 Creative Ave, NYC</div>
-          <div style="display:flex; align-items:center; gap:1rem; font-size:1.05rem;"><i style="width:2rem; color:#2563eb;" class="fas fa-clock"></i> Mon–Fri 9am – 6pm EST</div>
+          <div style="display:flex; align-items:center; gap:1rem; font-size:1.05rem;"><i style="width:2rem; color:#2563eb;" class="fas fa-envelope"></i> renylesh9@gmail.com</div>
+          <div style="display:flex; align-items:center; gap:1rem; font-size:1.05rem;"><i style="width:2rem; color:#2563eb;" class="fas fa-phone-alt"></i> 0741459599</div>
+          <div style="display:flex; align-items:center; gap:1rem; font-size:1.05rem;"><i style="width:2rem; color:#2563eb;" class="fas fa-map-marker-alt"></i> Nakuru, Kenya</div>
+          <div style="display:flex; align-items:center; gap:1rem; font-size:1.05rem;"><i style="width:2rem; color:#2563eb;" class="fas fa-clock"></i> Mon–Fri 9am – 6pm</div>
         </div>
         <hr style="margin: 1.5rem 0; border-color: #edf2f7;">
         <h4 style="margin-bottom: 0.5rem;">Follow us</h4>
         <div style="display: flex; gap: 1.2rem; font-size: 1.6rem;">
-          <i class="fab fa-instagram" style="color: #2563eb; cursor:pointer;" onclick="alert('Instagram @renysolutions')"></i>
-          <i class="fab fa-linkedin" style="color: #2563eb; cursor:pointer;" onclick="alert('LinkedIn /renysolutions')"></i>
-          <i class="fab fa-twitter" style="color: #2563eb; cursor:pointer;" onclick="alert('Twitter @renysolutions')"></i>
+          <i class="fab fa-instagram" style="color: #2563eb; cursor:pointer;" onclick="alert('Instagram @renycreative')"></i>
+          <i class="fab fa-linkedin" style="color: #2563eb; cursor:pointer;" onclick="alert('LinkedIn /renycreative')"></i>
+          <i class="fab fa-twitter" style="color: #2563eb; cursor:pointer;" onclick="alert('Twitter @renycreative')"></i>
         </div>
         <div style="margin-top: 1.5rem; background: #f1f5f9; border-radius: 40px; padding: 0.8rem 1.5rem;">
-          <i class="fas fa-headset" style="color: #2563eb;"></i> <strong>Quick support:</strong> 0769099204
+          <i class="fas fa-headset" style="color: #2563eb;"></i> <strong>Quick support:</strong> 0741459599
         </div>
       </div>
     </div>
 
     <div class="cta-banner">
-      <div><h2>📋 Ready to start?</h2><p>We’ll reply within 24 hours with a tailored proposal.</p></div>
-      <div><button class="btn-primary" onclick="alert('CTA: request a quote')"><i class="fas fa-file-invoice"></i> Request quote</button></div>
+      <div><h2>📋 Ready to start?</h2><p>We'll reply within 24 hours with a tailored proposal.</p></div>
+      <div><button class="btn-primary" onclick="alert('Request a quote — we\'ll get back to you!')"><i class="fas fa-file-invoice"></i> Request quote</button></div>
     </div>
   </section>
 
@@ -619,6 +815,7 @@
   const navBtns = document.querySelectorAll('.nav-btn');
   const pages = {
     home: document.getElementById('page-home'),
+    blog: document.getElementById('page-blog'),
     projects: document.getElementById('page-projects'),
     contact: document.getElementById('page-contact')
   };
@@ -633,7 +830,7 @@
     });
   });
 
-  // ---------- PROJECT FORM: upload image/file ----------
+  // ---------- PROJECT FORM ----------
   const fileInput = document.getElementById('fileInput');
   const uploadArea = document.getElementById('uploadArea');
   const filePreview = document.getElementById('filePreview');
@@ -668,12 +865,10 @@
     const desc = document.getElementById('projectDesc').value.trim() || 'No description';
     if (!title) return alert('Please enter a project title.');
 
-    // build project card
     const gallery = document.getElementById('projectGallery');
     const card = document.createElement('div');
     card.className = 'project-card';
 
-    // thumb: show image if uploaded, else icon
     const thumb = document.createElement('div');
     thumb.className = 'project-thumb';
     if (uploadedFile && uploadedFile.type.startsWith('image/')) {
@@ -720,17 +915,15 @@
     const service = document.getElementById('contactService').value;
     document.getElementById('contactFeedback').innerHTML = `<span style="color:#16a34a;"><i class="fas fa-check-circle"></i> Thanks ${name}! We’ll get back to you about ${service} soon.</span>`;
   });
-  
 </script>
 
-    <div class="footer-socials">
-      <a href="https://www.facebook.com/share/1BqTzJUW9C/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.linkedin.com/in/renson-shakai-3a71a9314?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-      <a href="https://behance.net" target="_blank"><i class="fab fa-behance"></i></a>
-    </div>
-    <div style="font-size:0.8rem;"><a style="color:#5e5248;text-decoration:none;margin-right:1.2rem;cursor:pointer;"></a><a style="color:#5e5248;text-decoration:none;cursor:pointer;"></a></div>
-  </footer>
-</div>
+<footer style="margin-top: 3rem; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 2rem; color: #64748b; display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;">
+  <div>© 2026 Reny Solutions · Nakuru</div>
+  <div>
+    <a href="#" style="color: #2563eb; text-decoration: none; margin: 0 0.6rem;"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" style="color: #2563eb; text-decoration: none; margin: 0 0.6rem;"><i class="fab fa-instagram"></i></a>
+    <a href="#" style="color: #2563eb; text-decoration: none; margin: 0 0.6rem;"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</footer>
 </body>
 </html>
