@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moonlight Hotel · Nanyuki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fef4e8;
+      color: #1e1b19;
+      line-height: 1.5;
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ---------- NAVBAR (HEADER) ---------- */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 0; flex-wrap: wrap; gap: 1rem;
+      border-bottom: 1px solid rgba(30, 27, 25, 0.08);
+      position: relative; z-index: 20;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px;
+      color: #1e1b19; text-decoration: none; cursor: pointer;
+    }
+    .brand i { font-size: 1.8rem; color: #b8936a; }
+    .brand div { display: flex; flex-direction: column; line-height: 1.2; }
+    .brand span { font-weight: 300; font-size: 0.6rem; letter-spacing: 1px; color: #6e625a; }
+    .nav-links {
+      display: flex; align-items: center; gap: 1.6rem;
+      list-style: none; flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none; color: #2d2824; font-weight: 500;
+      font-size: 0.85rem; transition: 0.2s; cursor: pointer; white-space: nowrap;
+    }
+    .nav-links a:hover { color: #b8936a; }
+    .nav-links a.active { color: #b8936a; border-bottom: 2px solid #b8936a; padding-bottom: 2px; }
+    .nav-cta {
+      background: #1e1b19; color: #fcf9f6 !important;
+      padding: 0.5rem 1.2rem; border-radius: 40px;
+      font-weight: 600; font-size: 0.8rem !important;
+      transition: 0.2s; border-bottom: none !important;
+    }
+    .nav-cta:hover { background: #b8936a !important; color: #1e1b19 !important; }
+
+    /* ---------- PAGE SYSTEM ---------- */
+    .page { display: none; animation: fadeIn 0.35s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ---------- SHARED ---------- */
+    .btn-primary {
+      background: #1e1b19; color: #fcf9f6; border: none; padding: 0.8rem 2rem;
+      border-radius: 60px; font-weight: 600; font-size: 0.95rem; cursor: pointer;
+      transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: #b8936a; color: #1e1b19; }
+    .btn-outline {
+      background: transparent; border: 1px solid #d4c8be; color: #1e1b19;
+      padding: 0.8rem 2rem; border-radius: 60px; font-weight: 500; font-size: 0.95rem;
+      cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-outline:hover { border-color: #b8936a; background: #f5eee8; }
+    .btn-sm { padding: 0.5rem 1.2rem; font-size: 0.8rem; }
+
+    /* ---------- ACTION BUTTONS ---------- */
+    .btn-action {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.35rem 0.7rem; border-radius: 8px; font-size: 0.72rem;
+      font-weight: 600; cursor: pointer; transition: 0.2s; border: none;
+      text-decoration: none; gap: 4px; white-space: nowrap;
+    }
+    .btn-edit { background: #e3ecf7; color: #2a5f9e; }
+    .btn-edit:hover { background: #2a5f9e; color: #fff; }
+    .btn-cancel { background: #fef3e0; color: #b17d3a; }
+    .btn-cancel:hover { background: #b17d3a; color: #fff; }
+    .btn-delete { background: #fde8e8; color: #b33a3a; }
+    .btn-delete:hover { background: #b33a3a; color: #fff; }
+    .btn-view { background: #e3f2e9; color: #1e7a4a; }
+    .btn-view:hover { background: #1e7a4a; color: #fff; }
+    .btn-confirm { background: #e3f2e9; color: #1e7a4a; }
+    .btn-confirm:hover { background: #1e7a4a; color: #fff; }
+
+    .action-group { display: flex; gap: 4px; flex-wrap: wrap; }
+
+    .page-header { padding: 2.5rem 0 1rem; }
+    .page-header h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: -1.5px; }
+    .page-header h1 em { color: #b8936a; font-style: normal; }
+    .page-header p { color: #4d4038; font-size: 1.05rem; max-width: 600px; margin-top: 0.4rem; }
+
+    .section-title { text-align: center; margin: 3rem 0 2rem; }
+    .section-title h2 { font-size: 2.2rem; font-weight: 600; letter-spacing: -0.5px; }
+    .section-title p { color: #6e625a; margin-top: 6px; }
+
+    .stats-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem; margin: 1.5rem 0 2.5rem;
+    }
+    .stat-item {
+      background: white; border-radius: 20px; padding: 1.5rem;
+      text-align: center; border: 1px solid #f0ebe6;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .stat-item .number { font-size: 2.2rem; font-weight: 700; color: #1e1b19; letter-spacing: -1px; }
+    .stat-item .label { font-size: 0.75rem; color: #6e625a; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .table-wrapper {
+      background: white; border-radius: 24px; border: 1px solid #f0ebe6;
+      overflow-x: auto; margin: 1.5rem 0 2rem; padding: 0.5rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th {
+      text-align: left; padding: 1rem 1.2rem; background: #fdf6ee;
+      font-weight: 600; color: #4d4038; font-size: 0.75rem;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid #ede7e0;
+    }
+    td { padding: 0.9rem 1.2rem; border-bottom: 1px solid #f5f0ea; color: #2d2824; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fef9f3; }
+
+    .badge {
+      display: inline-block; padding: 0.2rem 0.9rem; border-radius: 40px;
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
+    }
+    .badge-green { background: #e3f2e9; color: #1e7a4a; }
+    .badge-amber { background: #fef3e0; color: #b17d3a; }
+    .badge-red { background: #fde8e8; color: #b33a3a; }
+    .badge-blue { background: #e3ecf7; color: #2a5f9e; }
+    .badge-purple { background: #ede4f7; color: #6b3fa0; }
+    .badge-gray { background: #f0ebe6; color: #5e5248; }
+
+    .dept-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem; margin: 2rem 0 3rem;
+    }
+    .dept-card {
+      background: white; border-radius: 28px; padding: 2rem 1.8rem;
+      border: 1px solid #f0ebe6; box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+      transition: 0.25s ease; cursor: pointer;
+    }
+    .dept-card:hover { transform: translateY(-6px); border-color: #d4b68a; box-shadow: 0 16px 32px -8px rgba(0,0,0,0.06); }
+    .dept-card i { font-size: 2.4rem; color: #b8936a; margin-bottom: 1rem; }
+    .dept-card h3 { font-weight: 600; font-size: 1.3rem; margin-bottom: 0.4rem; }
+    .dept-card p { color: #5e5248; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .dept-card .dept-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: #6e625a; border-top: 1px solid #f0ebe6; padding-top: 0.8rem; margin-top: 0.4rem; }
+
+    /* ---------- GUEST SITE ---------- */
+    .hero-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; padding: 2.5rem 0 3rem; }
+    .hero-content h1 { font-size: 3.4rem; font-weight: 700; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1rem; }
+    .hero-content h1 em { color: #b8936a; font-style: normal; }
+    .hero-content p { font-size: 1.05rem; color: #4d4038; max-width: 460px; margin-bottom: 1.5rem; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .hero-image { border-radius: 32px; min-height: 360px; background-size: cover; background-position: center; box-shadow: 0 24px 48px -12px rgba(0,0,0,0.15); background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80'); }
+
+    .room-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2rem 0 3rem; }
+    .room-card { background: white; border-radius: 28px; overflow: hidden; border: 1px solid #f0ebe6; transition: 0.3s ease; }
+    .room-card:hover { transform: translateY(-6px); border-color: #d4b68a; box-shadow: 0 16px 36px -8px rgba(0,0,0,0.08); }
+    .room-image { height: 220px; background-size: cover; background-position: center; }
+    .room-body { padding: 1.5rem 1.5rem 1.8rem; }
+    .room-body h3 { font-weight: 600; font-size: 1.2rem; margin-bottom: 0.3rem; }
+    .room-price { font-weight: 700; font-size: 1.4rem; color: #b8936a; margin: 0.4rem 0 0.6rem; }
+    .room-price span { font-weight: 400; font-size: 0.8rem; color: #6e625a; }
+    .room-features { list-style: none; margin: 0.8rem 0 1.2rem; }
+    .room-features li { font-size: 0.85rem; color: #4d4038; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 6px; }
+    .room-features li i { color: #b8936a; font-size: 0.7rem; }
+
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0 3rem; }
+    .gallery-item { aspect-ratio: 1/1; border-radius: 20px; background-size: cover; background-position: center; border: 1px solid #f0ebe6; transition: 0.3s ease; cursor: pointer; position: relative; overflow: hidden; }
+    .gallery-item:hover { transform: scale(1.02); border-color: #b8936a; box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
+    .gallery-item .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 60%); opacity: 0; transition: 0.3s; display: flex; align-items: flex-end; padding: 1rem; }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .gallery-item .overlay span { background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); padding: 0.2rem 0.9rem; border-radius: 40px; font-size: 0.7rem; color: white; font-weight: 500; }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin: 2rem 0 3rem; }
+    .info-card { background: white; border-radius: 28px; padding: 2rem; border: 1px solid #f0ebe6; }
+    .info-card i { font-size: 2rem; color: #b8936a; margin-bottom: 1rem; }
+    .info-card h3 { font-weight: 600; margin-bottom: 0.5rem; }
+    .info-card p { color: #5e5248; font-size: 0.95rem; }
+
+    .footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; padding: 2rem 0 2.5rem; border-top: 1px solid #ede7e0; margin-top: 2rem; font-size: 0.85rem; color: #5e5248; }
+    .footer a { color: #5e5248; text-decoration: none; }
+    .footer a:hover { color: #b8936a; }
+    .footer-socials { display: flex; gap: 1.2rem; font-size: 1.1rem; }
+
+    .table-section-title { font-size: 1.2rem; font-weight: 600; margin: 2rem 0 0.5rem; display: flex; align-items: center; gap: 8px; }
+    .table-section-title i { color: #b8936a; }
+
+    /* ---------- CAROUSEL STYLES ---------- */
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 32px;
+      overflow: hidden;
+      margin: 1.5rem 0 2.5rem;
+      box-shadow: 0 16px 40px -12px rgba(0,0,0,0.15);
+      background: #f5eee8;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: 100%;
+    }
+    .carousel-slide {
+      flex: 0 0 100%;
+      height: 480px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 2rem;
+    }
+    .carousel-slide .slide-caption {
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px);
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      color: #fff;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .carousel-slide .slide-caption i {
+      color: #d4b68a;
+      margin-right: 8px;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(6px);
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #1e1b19;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+    .carousel-btn:hover {
+      background: #b8936a;
+      color: #fff;
+    }
+    .carousel-btn.prev { left: 1.2rem; }
+    .carousel-btn.next { right: 1.2rem; }
+    .carousel-dots {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.6rem;
+      z-index: 10;
+    }
+    .carousel-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: 0.3s;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    .carousel-dots span.active {
+      background: #b8936a;
+      transform: scale(1.2);
+    }
+
+    .mini-carousel {
+      margin: 1rem 0 2rem;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 28px -8px rgba(0,0,0,0.12);
+    }
+    .mini-carousel .carousel-slide {
+      height: 300px;
+      padding: 1.5rem;
+    }
+    .mini-carousel .carousel-slide .slide-caption {
+      font-size: 0.8rem;
+      padding: 0.5rem 1.2rem;
+    }
+    .mini-carousel .carousel-btn {
+      width: 36px;
+      height: 36px;
+      font-size: 0.9rem;
+    }
+
+    /* ---------- GOOGLE MAPS EMBED ---------- */
+    .map-container {
+      width: 100%;
+      height: 400px;
+      border-radius: 28px;
+      overflow: hidden;
+      margin: 1.5rem 0 2.5rem;
+      border: 1px solid #f0ebe6;
+      box-shadow: 0 8px 28px -8px rgba(0,0,0,0.08);
+      background: #f5eee8;
+    }
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* ---------- MODAL ---------- */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      z-index: 100; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 28px; padding: 2rem 2.2rem;
+      max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 24px 48px -12px rgba(0,0,0,0.2);
+    }
+    .modal h3 { font-weight: 600; font-size: 1.3rem; margin-bottom: 1.2rem; }
+    .modal .form-group { margin-bottom: 1rem; }
+    .modal label { font-size: 0.82rem; font-weight: 500; display: block; margin-bottom: 0.3rem; color: #4d4038; }
+    .modal input, .modal select, .modal textarea {
+      width: 100%; padding: 0.75rem 1rem; border: 1px solid #e8e0d9; border-radius: 14px;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; background: #fef9f3; outline: none;
+    }
+    .modal input:focus, .modal select:focus, .modal textarea:focus { border-color: #b8936a; background: white; box-shadow: 0 0 0 3px rgba(184,147,106,0.1); }
+    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
+
+    /* ---------- TOAST ---------- */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; background: #1e1b19; color: #fcf9f6;
+      padding: 1rem 1.5rem; border-radius: 16px; font-size: 0.9rem; font-weight: 500;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.2); z-index: 200;
+      transform: translateY(120%); transition: transform 0.4s ease; display: flex; align-items: center; gap: 10px;
+    }
+    .toast.show { transform: translateY(0); }
+    .toast i { color: #b8936a; }
+
+    @media (max-width: 1024px) {
+      .hero-wrapper { grid-template-columns: 1fr; text-align: center; }
+      .hero-content p { margin-left: auto; margin-right: auto; }
+      .hero-buttons { justify-content: center; }
+      .room-grid { grid-template-columns: 1fr 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+      .dept-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+      .carousel-slide { height: 360px; }
+      .map-container { height: 320px; }
+    }
+    @media (max-width: 700px) {
+      .container { padding: 0 1.2rem; }
+      .navbar { flex-direction: column; align-items: stretch; }
+      .nav-links { justify-content: center; gap: 0.6rem; }
+      .page-header h1 { font-size: 2.2rem; }
+      .hero-content h1 { font-size: 2.5rem; }
+      .room-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      table { font-size: 0.8rem; }
+      th, td { padding: 0.7rem 0.8rem; }
+      .btn-action { padding: 0.3rem 0.5rem; font-size: 0.65rem; }
+      .carousel-slide { height: 260px; padding: 1.2rem; }
+      .carousel-slide .slide-caption { font-size: 0.75rem; padding: 0.5rem 1rem; }
+      .carousel-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+      .carousel-btn.prev { left: 0.6rem; }
+      .carousel-btn.next { right: 0.6rem; }
+      .mini-carousel .carousel-slide { height: 200px; }
+      .map-container { height: 260px; }
+    }
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+      .carousel-slide { height: 200px; }
+      .map-container { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- ==================== HEADER ==================== -->
+  <header>
+    <nav class="navbar">
+      <div class="brand" onclick="navigateTo('home')">
+        <i class="fas fa-moon"></i>
+        <div>Moonlight Hotel <span>Nanyuki · Laikipia County</span></div>
+      </div>
+      <ul class="nav-links" id="mainNav">
+        <li><a onclick="navigateTo('home')" id="nav-home" class="active">Home</a></li>
+        <li><a onclick="navigateTo('rooms')" id="nav-rooms">Rooms</a></li>
+        <li><a onclick="navigateTo('restaurant')" id="nav-restaurant">Restaurant</a></li>
+        <li><a onclick="navigateTo('boardroom')" id="nav-boardroom">Boardroom</a></li>
+        <li><a onclick="navigateTo('gallery')" id="nav-gallery">Gallery</a></li>
+        <li><a onclick="navigateTo('about')" id="nav-about">About</a></li>
+        <li><a onclick="navigateTo('contact')" id="nav-contact">Contact</a></li>
+        <li><a onclick="navigateTo('dashboard')" id="nav-dashboard" style="color:#b8936a; font-weight:600;"> Management</a></li>
+        <li><a onclick="navigateTo('contact')" class="nav-cta"><i class="fas fa-calendar-check"></i> Book Now</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ==================== GUEST SITE PAGES ==================== -->
+
+  <!-- ========== HOME (GUEST) ========== -->
+  <div id="page-home" class="page active">
+    <!-- HERO CAROUSEL -->
+    <div class="carousel-wrapper" id="heroCarousel">
+      <div class="carousel-track" id="heroTrack">
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-hotel"></i> Welcome to Moonlight Hotel — Nanyuki</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-bed"></i> Comfortable Rooms & Breakfast Included</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-utensils"></i> Restaurant Serving Meals All Day</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-chalkboard"></i> Conference & Boardroom Facilities</div>
+        </div>
+      </div>
+      <button class="carousel-btn prev" onclick="moveCarousel('hero', -1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next" onclick="moveCarousel('hero', 1)"><i class="fas fa-chevron-right"></i></button>
+      <div class="carousel-dots" id="heroDots">
+        <span class="active" onclick="goToSlide('hero', 0)"></span>
+        <span onclick="goToSlide('hero', 1)"></span>
+        <span onclick="goToSlide('hero', 2)"></span>
+        <span onclick="goToSlide('hero', 3)"></span>
+      </div>
+    </div>
+
+    <div class="hero-wrapper" style="padding-top:0;">
+      <div class="hero-content">
+        <div style="font-size:0.8rem; letter-spacing:1px; color:#b8936a; font-weight:600; margin-bottom:0.5rem;">NANYUKI, LAIKIPIA COUNTY · KENYA</div>
+        <h1>Welcome to <em>Hotel Moonlight</em></h1>
+        <p>A warm, comfortable stay in the heart of Nanyuki — with breakfast included, a good restaurant, and easy access to Mount Kenya and the surrounding region.</p>
+        <div class="hero-buttons">
+          <a onclick="navigateTo('rooms')" class="btn-primary"><i class="fas fa-bed"></i> Book a Room</a>
+          <a onclick="navigateTo('rooms')" class="btn-outline"><i class="fas fa-arrow-right"></i> View Rooms & Rates</a>
+        </div>
+        <div style="margin-top:1.8rem; display:flex; gap:2rem; flex-wrap:wrap; font-size:0.85rem; color:#6e625a;">
+          <span><i class="fas fa-check-circle" style="color:#b8936a;"></i> Ksh 2,500 Single / person</span>
+          <span><i class="fas fa-check-circle" style="color:#b8936a;"></i> Ksh 3,000 Double / 2 people</span>
+        </div>
+      </div>
+      <div class="hero-image"></div>
+    </div>
+
+    <div class="section-title"><h2>A Comfortable Home in Nanyuki</h2><p>Moonlight Hotel is conveniently situated in Nanyuki town — behind the G4S Building, next to CMC Motors.</p></div>
+
+    <div class="table-section-title"><i class="fas fa-tags"></i> Bed & Breakfast Rates</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Room Type</th><th>Occupancy</th><th>Rate (Ksh)</th><th>Breakfast</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Single Room</td><td>1 person</td><td>2,500 / night</td><td><span class="badge badge-green">Included</span></td><td><a onclick="openBookingModal('Single Room')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Book</a></td></tr>
+          <tr><td>Double Room (Sharing)</td><td>2 people</td><td>3,000 / night</td><td><span class="badge badge-green">Included</span></td><td><a onclick="openBookingModal('Double Room')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Book</a></td></tr>
+          <tr><td>Extra Bed</td><td>Per person</td><td>800 / night</td><td><span class="badge badge-green">Included</span></td><td><a onclick="openBookingModal('Extra Bed')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Enquire</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-concierge-bell"></i> Hotel Amenities & Services</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Amenity / Service</th><th>Availability</th><th>Details</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Free Wi-Fi</td><td><span class="badge badge-green">All areas</span></td><td>High-speed internet</td><td>Free</td></tr>
+          <tr><td>Breakfast</td><td><span class="badge badge-green">Daily</span></td><td>6:30 AM – 10:00 AM</td><td>Included</td></tr>
+          <tr><td>Restaurant</td><td><span class="badge badge-green">Daily</span></td><td>Breakfast, lunch & dinner</td><td>Menu prices</td></tr>
+          <tr><td>Conference / Boardroom</td><td><span class="badge badge-amber">By booking</span></td><td>Seats up to 20</td><td>Enquire</td></tr>
+          <tr><td>Secure Parking</td><td><span class="badge badge-green">24/7</span></td><td>On-site, guarded</td><td>Free</td></tr>
+          <tr><td>Laundry Service</td><td><span class="badge badge-amber">On request</span></td><td>Same-day available</td><td>From Ksh 300</td></tr>
+          <tr><td>Airport / Town Transfers</td><td><span class="badge badge-amber">On request</span></td><td>Nanyuki area</td><td>Enquire</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-map-marked-alt"></i> Location & Contact Information</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Detail</th><th>Information</th></tr></thead>
+        <tbody>
+          <tr><td><i class="fas fa-map-marker-alt" style="color:#b8936a; width:20px;"></i> Physical Address</td><td>Behind G4S Building, next to CMC Motors, Nanyuki, Kenya</td></tr>
+          <tr><td><i class="fas fa-phone-alt" style="color:#b8936a; width:20px;"></i> Phone / WhatsApp</td><td>0728 686 682</td></tr>
+          <tr><td><i class="fas fa-envelope" style="color:#b8936a; width:20px;"></i> Email</td><td>info@moonlighthotel.co.ke</td></tr>
+          <tr><td><i class="fas fa-clock" style="color:#b8936a; width:20px;"></i> Check-in / Check-out</td><td>Check-in: 12:00 PM · Check-out: 10:00 AM</td></tr>
+          <tr><td><i class="fas fa-car" style="color:#b8936a; width:20px;"></i> Parking</td><td>Free secure on-site parking available</td></tr>
+          <tr><td><i class="fas fa-globe" style="color:#b8936a; width:20px;"></i> Nearby Landmarks</td><td>Nanyuki Town Centre, Mount Kenya, Laikipia Plains</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== GOOGLE MAP ON HOME ===== -->
+    <div class="table-section-title"><i class="fas fa-map-pin"></i> Find Us on the Map</div>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.898832748458!2d37.07269431475397!3d-0.01664999993865653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1827b0c1b1b1b1b1%3A0x1b1b1b1b1b1b1b1b!2sNanyuki%2C%20Kenya!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Moonlight Hotel Location - Nanyuki, Kenya">
+      </iframe>
+    </div>
+
+    <div class="section-title"><h2>Dining</h2><p>Enjoy a Good Meal — our restaurant serves meals throughout the day.</p></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:3rem; align-items:center;">
+      <div style="border-radius:28px; min-height:260px; background-size:cover; background-position:center; background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80');"></div>
+      <div>
+        <h3 style="font-weight:600; font-size:1.6rem; margin-bottom:0.8rem;">Breakfast, Lunch & Dinner</h3>
+        <p style="color:#4d4038; margin-bottom:1.2rem;">Whether it is breakfast to start your morning right, a hearty lunch, or dinner after a long day — our kitchen is ready to serve you.</p>
+        <a onclick="navigateTo('restaurant')" class="btn-outline"><i class="fas fa-utensils"></i> See the Restaurant</a>
+      </div>
+    </div>
+
+    <div class="section-title"><h2>Where to Find Us</h2><p>Easy to Find — right in Nanyuki town.</p></div>
+    <div class="info-grid">
+      <div class="info-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Address</h3>
+        <p>Behind G4S Building, next to CMC Motors, Nanyuki, Kenya</p>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-phone-alt"></i>
+        <h3>Phone / WhatsApp</h3>
+        <p>0728 686 682</p>
+        <a onclick="navigateTo('contact')" class="btn-outline btn-sm" style="margin-top:1rem;"><i class="fas fa-paper-plane"></i> Contact Us</a>
+      </div>
+    </div>
+
+    <div style="background:#1e1b19; color:#f0ebe6; border-radius:40px; padding:3rem 4rem; text-align:center; margin:2rem 0 3rem;">
+      <i class="fas fa-quote-left" style="font-size:2rem; color:#b8936a; margin-bottom:1rem;"></i>
+      <blockquote style="font-size:1.2rem; max-width:700px; margin:0 auto; line-height:1.6;">"Comfort, warmth and generous hospitality at the foot of Mount Kenya."</blockquote>
+      <cite style="display:block; margin-top:1rem; font-style:normal; font-weight:600; color:#d4b68a;">— Moonlight Hotel</cite>
+    </div>
+  </div>
+
+  <!-- ========== ROOMS (GUEST) ========== -->
+  <div id="page-rooms" class="page">
+    <div class="page-header">
+      <h1>Rooms <em>& Rates</em></h1>
+      <p>Clean, comfortable rooms with complimentary breakfast included.</p>
+    </div>
+
+    <!-- ROOMS MINI CAROUSEL -->
+    <div class="mini-carousel" id="roomsCarousel">
+      <div class="carousel-track" id="roomsTrack">
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-bed"></i> Single Room — Comfortable & Clean</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1590490360182-c33d57733427?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-bed"></i> Double Room — Spacious & Bright</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-coffee"></i> Breakfast Included with Every Stay</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-couch"></i> Twin Room — Perfect for Friends</div>
+        </div>
+      </div>
+      <button class="carousel-btn prev" onclick="moveCarousel('rooms', -1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next" onclick="moveCarousel('rooms', 1)"><i class="fas fa-chevron-right"></i></button>
+      <div class="carousel-dots" id="roomsDots">
+        <span class="active" onclick="goToSlide('rooms', 0)"></span>
+        <span onclick="goToSlide('rooms', 1)"></span>
+        <span onclick="goToSlide('rooms', 2)"></span>
+        <span onclick="goToSlide('rooms', 3)"></span>
+      </div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-file-invoice-dollar"></i> Full Rate Card</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Room Type</th><th>Max Occupancy</th><th>Rate / Night (Ksh)</th><th>Breakfast</th><th>Wi-Fi</th><th>En-suite</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Single Room</strong></td><td>1 person</td><td>2,500</td><td><span class="badge badge-green">Included</span></td><td><span class="badge badge-green">Yes</span></td><td><span class="badge badge-green">Yes</span></td><td><a onclick="openBookingModal('Single Room')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Book</a></td></tr>
+          <tr><td><strong>Double Room</strong></td><td>2 people</td><td>3,000</td><td><span class="badge badge-green">Included</span></td><td><span class="badge badge-green">Yes</span></td><td><span class="badge badge-green">Yes</span></td><td><a onclick="openBookingModal('Double Room')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Book</a></td></tr>
+          <tr><td><strong>Twin Room</strong></td><td>2 people</td><td>3,000</td><td><span class="badge badge-green">Included</span></td><td><span class="badge badge-green">Yes</span></td><td><span class="badge badge-green">Yes</span></td><td><a onclick="openBookingModal('Twin Room')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Book</a></td></tr>
+          <tr><td><strong>Extra Bed</strong></td><td>+1 person</td><td>800</td><td><span class="badge badge-green">Included</span></td><td>—</td><td>—</td><td><a onclick="openBookingModal('Extra Bed')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Enquire</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-star"></i> In-Room Amenities</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Amenity</th><th>Single</th><th>Double</th><th>Twin</th></tr></thead>
+        <tbody>
+          <tr><td>Complimentary Breakfast</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+          <tr><td>Free Wi-Fi</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+          <tr><td>En-suite Bathroom</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+          <tr><td>Work Desk</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+          <tr><td>Lounge Seating</td><td>—</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+          <tr><td>Smart TV</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+          <tr><td>Tea / Coffee Station</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+          <tr><td>Daily Housekeeping</td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td><td><span class="badge badge-green">✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-calendar-alt"></i> Room Availability (This Week)</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Room Type</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead>
+        <tbody>
+          <tr><td>Single Room</td><td><span class="badge badge-green">2</span></td><td><span class="badge badge-green">3</span></td><td><span class="badge badge-amber">1</span></td><td><span class="badge badge-green">2</span></td><td><span class="badge badge-red">0</span></td><td><span class="badge badge-red">0</span></td><td><span class="badge badge-green">2</span></td></tr>
+          <tr><td>Double Room</td><td><span class="badge badge-green">4</span></td><td><span class="badge badge-green">5</span></td><td><span class="badge badge-green">3</span></td><td><span class="badge badge-amber">2</span></td><td><span class="badge badge-amber">1</span></td><td><span class="badge badge-red">0</span></td><td><span class="badge badge-green">3</span></td></tr>
+          <tr><td>Twin Room</td><td><span class="badge badge-green">3</span></td><td><span class="badge badge-green">3</span></td><td><span class="badge badge-green">2</span></td><td><span class="badge badge-green">4</span></td><td><span class="badge badge-amber">2</span></td><td><span class="badge badge-amber">1</span></td><td><span class="badge badge-green">3</span></td></tr>
+        </tbody>
+      </table>
+      <p style="padding:0.8rem 1.2rem; font-size:0.8rem; color:#6e625a;">Numbers indicate rooms available. <span class="badge badge-green">Available</span> <span class="badge badge-amber">Limited</span> <span class="badge badge-red">Full</span></p>
+    </div>
+
+    <div class="room-grid">
+      <div class="room-card">
+        <div class="room-image" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80');"></div>
+        <div class="room-body">
+          <h3>Single Room</h3>
+          <div class="room-price">Ksh 2,500 <span>/ person / night</span></div>
+          <ul class="room-features">
+            <li><i class="fas fa-check"></i> Bed & Breakfast included</li>
+            <li><i class="fas fa-check"></i> Free Wi-Fi</li>
+            <li><i class="fas fa-check"></i> En-suite bathroom</li>
+            <li><i class="fas fa-check"></i> Work desk</li>
+          </ul>
+          <button class="btn-primary btn-sm" onclick="openBookingModal('Single Room')">Book Single</button>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-image" style="background-image:url('https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80');"></div>
+        <div class="room-body">
+          <h3>Double Room (Sharing)</h3>
+          <div class="room-price">Ksh 3,000 <span>/ 2 people / night</span></div>
+          <ul class="room-features">
+            <li><i class="fas fa-check"></i> Bed & Breakfast included</li>
+            <li><i class="fas fa-check"></i> Free Wi-Fi</li>
+            <li><i class="fas fa-check"></i> En-suite bathroom</li>
+            <li><i class="fas fa-check"></i> Lounge seating</li>
+          </ul>
+          <button class="btn-primary btn-sm" onclick="openBookingModal('Double Room')">Book Double</button>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="room-image" style="background-image:url('https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&q=80');"></div>
+        <div class="room-body">
+          <h3>Breakfast Included</h3>
+          <div class="room-price" style="font-size:1.1rem; color:#1e1b19;">Complimentary</div>
+          <ul class="room-features">
+            <li><i class="fas fa-check"></i> Freshly prepared daily</li>
+            <li><i class="fas fa-check"></i> Local & continental options</li>
+            <li><i class="fas fa-check"></i> Tea & coffee</li>
+            <li><i class="fas fa-check"></i> Served in our restaurant</li>
+          </ul>
+          <button class="btn-outline btn-sm" onclick="navigateTo('restaurant')">View Restaurant</button>
+        </div>
+      </div>
+    </div>
+    <div style="background:#f5eee8; border-radius:30px; padding:2rem 2.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+      <div>
+        <h3 style="font-weight:600;">Ready to book?</h3>
+        <p style="color:#6e625a; font-size:0.9rem;">Call or WhatsApp us on 0728 686 682 for reservations.</p>
+      </div>
+      <a onclick="openBookingModal('Room Reservation')" class="btn-primary"><i class="fas fa-calendar-plus"></i> Reserve Now</a>
+    </div>
+  </div>
+
+  <!-- ========== RESTAURANT (GUEST) ========== -->
+  <div id="page-restaurant" class="page">
+    <div class="page-header">
+      <h1>Our <em>Restaurant</em></h1>
+      <p>Enjoy a good meal — breakfast, lunch, and dinner served throughout the day.</p>
+    </div>
+
+    <!-- RESTAURANT MINI CAROUSEL -->
+    <div class="mini-carousel" id="restaurantCarousel">
+      <div class="carousel-track" id="restaurantTrack">
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-utensils"></i> A Meal to Remember</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-concierge-bell"></i> Warm & Friendly Service</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-leaf"></i> Fresh Local & International Cuisine</div>
+        </div>
+      </div>
+      <button class="carousel-btn prev" onclick="moveCarousel('restaurant', -1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next" onclick="moveCarousel('restaurant', 1)"><i class="fas fa-chevron-right"></i></button>
+      <div class="carousel-dots" id="restaurantDots">
+        <span class="active" onclick="goToSlide('restaurant', 0)"></span>
+        <span onclick="goToSlide('restaurant', 1)"></span>
+        <span onclick="goToSlide('restaurant', 2)"></span>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:center; margin:2rem 0 3rem;">
+      <div style="border-radius:28px; min-height:300px; background-size:cover; background-position:center; background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80');"></div>
+      <div>
+        <h2 style="font-weight:600; font-size:2rem; margin-bottom:1rem;">A Meal to Remember</h2>
+        <p style="color:#4d4038; margin-bottom:1rem;">Our restaurant serves meals throughout the day. Whether it is breakfast to start your morning right, a hearty lunch, or dinner after a long day — our kitchen is ready to serve you.</p>
+        <ul style="list-style:none; margin-bottom:1.5rem;">
+          <li style="margin-bottom:0.5rem;"><i class="fas fa-check-circle" style="color:#b8936a; margin-right:8px;"></i> Breakfast included for all guests</li>
+          <li style="margin-bottom:0.5rem;"><i class="fas fa-check-circle" style="color:#b8936a; margin-right:8px;"></i> Local & international cuisine</li>
+          <li style="margin-bottom:0.5rem;"><i class="fas fa-check-circle" style="color:#b8936a; margin-right:8px;"></i> Fresh ingredients daily</li>
+          <li style="margin-bottom:0.5rem;"><i class="fas fa-check-circle" style="color:#b8936a; margin-right:8px;"></i> Warm, friendly service</li>
+        </ul>
+        <a onclick="openBookingModal('Table Reservation')" class="btn-primary"><i class="fas fa-utensils"></i> Reserve a Table</a>
+      </div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-book-open"></i> Full Menu & Prices</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Dish</th><th>Category</th><th>Description</th><th>Price (Ksh)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Full Breakfast</strong></td><td><span class="badge badge-amber">Breakfast</span></td><td>Eggs, sausage, toast, fruit, tea/coffee</td><td>Included / 500</td></tr>
+          <tr><td><strong>Continental Breakfast</strong></td><td><span class="badge badge-amber">Breakfast</span></td><td>Pastries, fruit, yogurt, tea/coffee</td><td>Included / 400</td></tr>
+          <tr><td><strong>Grilled Chicken & Salad</strong></td><td><span class="badge badge-blue">Lunch</span></td><td>Marinated chicken breast, garden salad</td><td>850</td></tr>
+          <tr><td><strong>Beef Steak with Fries</strong></td><td><span class="badge badge-purple">Dinner</span></td><td>Grilled steak, chips, vegetables</td><td>1,200</td></tr>
+          <tr><td><strong>Fish & Chips</strong></td><td><span class="badge badge-blue">Lunch / Dinner</span></td><td>Battered tilapia, chips, tartar sauce</td><td>900</td></tr>
+          <tr><td><strong>Vegetable Pasta</strong></td><td><span class="badge badge-blue">Lunch / Dinner</span></td><td>Penne, seasonal vegetables, tomato sauce</td><td>750</td></tr>
+          <tr><td><strong>Beef Burger</strong></td><td><span class="badge badge-blue">Lunch</span></td><td>Beef patty, cheese, lettuce, fries</td><td>800</td></tr>
+          <tr><td><strong>Chicken Curry & Rice</strong></td><td><span class="badge badge-purple">Dinner</span></td><td>Spiced chicken, steamed rice, naan</td><td>950</td></tr>
+          <tr><td><strong>Fresh Fruit Platter</strong></td><td><span class="badge badge-green">Dessert</span></td><td>Seasonal fruits</td><td>350</td></tr>
+          <tr><td><strong>Chocolate Cake</strong></td><td><span class="badge badge-green">Dessert</span></td><td>Rich chocolate slice</td><td>400</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-glass-cheers"></i> Drinks & Beverages</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Beverage</th><th>Type</th><th>Price (Ksh)</th></tr></thead>
+        <tbody>
+          <tr><td>Fresh Juice (Mango, Passion, Pineapple)</td><td>Soft Drink</td><td>250</td></tr>
+          <tr><td>Soda (Coke, Fanta, Sprite)</td><td>Soft Drink</td><td>150</td></tr>
+          <tr><td>Bottled Water (500ml / 1L)</td><td>Water</td><td>100 / 150</td></tr>
+          <tr><td>Tea / Coffee</td><td>Hot Beverage</td><td>150</td></tr>
+          <tr><td>Local Beer (Tusker, White Cap)</td><td>Alcoholic</td><td>300</td></tr>
+          <tr><td>Imported Beer</td><td>Alcoholic</td><td>450</td></tr>
+          <tr><td>House Wine (Glass)</td><td>Alcoholic</td><td>500</td></tr>
+          <tr><td>Cocktails (Various)</td><td>Alcoholic</td><td>650</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-clock"></i> Restaurant Opening Hours</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Meal</th><th>Days</th><th>Opening Time</th><th>Closing Time</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Breakfast</strong></td><td>Monday – Sunday</td><td>6:30 AM</td><td>10:00 AM</td></tr>
+          <tr><td><strong>Lunch</strong></td><td>Monday – Sunday</td><td>12:00 PM</td><td>3:00 PM</td></tr>
+          <tr><td><strong>Dinner</strong></td><td>Monday – Sunday</td><td>6:30 PM</td><td>10:00 PM</td></tr>
+          <tr><td><strong>Bar / Lounge</strong></td><td>Monday – Sunday</td><td>11:00 AM</td><td>11:00 PM</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== BOARDROOM (GUEST) ========== -->
+  <div id="page-boardroom" class="page">
+    <div class="page-header">
+      <h1>Conference <em>& Boardroom</em></h1>
+      <p>Facilities for meetings and events in Nanyuki.</p>
+    </div>
+
+    <!-- BOARDROOM MINI CAROUSEL -->
+    <div class="mini-carousel" id="boardroomCarousel">
+      <div class="carousel-track" id="boardroomTrack">
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-chalkboard"></i> Conference & Boardroom Facilities</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-users"></i> Seats up to 20 People</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1000&q=80');">
+          <div class="slide-caption"><i class="fas fa-projector"></i> Projector & Screen Available</div>
+        </div>
+      </div>
+      <button class="carousel-btn prev" onclick="moveCarousel('boardroom', -1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next" onclick="moveCarousel('boardroom', 1)"><i class="fas fa-chevron-right"></i></button>
+      <div class="carousel-dots" id="boardroomDots">
+        <span class="active" onclick="goToSlide('boardroom', 0)"></span>
+        <span onclick="goToSlide('boardroom', 1)"></span>
+        <span onclick="goToSlide('boardroom', 2)"></span>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:center; margin:2rem 0 3rem;">
+      <div>
+        <h2 style="font-weight:600; font-size:1.8rem; margin-bottom:1rem;">Meet in Comfort</h2>
+        <p style="color:#4d4038; margin-bottom:1rem;">Our conference/boardroom facility is ideal for business meetings, workshops, and small events. Located in the heart of Nanyuki, we offer a quiet, professional environment with all the essentials.</p>
+        <ul style="list-style:none; margin-bottom:1.5rem;">
+          <li style="margin-bottom:0.5rem;"><i class="fas fa-check-circle" style="color:#b8936a; margin-right:8px;"></i> Seats up to 20 people</li>
+          <li style="margin-bottom:0.5rem;"><i class="fas fa-check-circle" style="color:#b8936a; margin-right:8px;"></i> Projector & screen</li>
+          <li style="margin-bottom:0.5rem;"><i class="fas fa-check-circle" style="color:#b8936a; margin-right:8px;"></i> Flip chart & whiteboard</li>
+          <li style="margin-bottom:0.5rem;"><i class="fas fa-check-circle" style="color:#b8936a; margin-right:8px;"></i> Tea, coffee & snacks available</li>
+        </ul>
+        <a onclick="openBookingModal('Boardroom Enquiry')" class="btn-primary"><i class="fas fa-calendar-check"></i> Enquire About Boardroom</a>
+      </div>
+      <div style="border-radius:28px; min-height:300px; background-size:cover; background-position:center; background-image:url('https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=800&q=80');"></div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-clipboard-list"></i> Boardroom Specifications</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Feature</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td>Maximum Capacity</td><td>20 people (theatre) · 12 people (boardroom)</td></tr>
+          <tr><td>Room Size</td><td>Approximately 40 sqm</td></tr>
+          <tr><td>Seating</td><td>Executive chairs, conference table</td></tr>
+          <tr><td>Audio / Visual</td><td>Projector, screen, HDMI, speakers</td></tr>
+          <tr><td>Presentation Tools</td><td>Whiteboard, flip chart, markers</td></tr>
+          <tr><td>Connectivity</td><td>Free high-speed Wi-Fi</td></tr>
+          <tr><td>Climate Control</td><td>Air conditioning</td></tr>
+          <tr><td>Catering</td><td>Tea, coffee, snacks, full meals on request</td></tr>
+          <tr><td>Parking</td><td>Free secure parking for attendees</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-box"></i> Boardroom Packages</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Package</th><th>Includes</th><th>Duration</th><th>Price (Ksh)</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Half-Day</strong></td><td>Room, Wi-Fi, projector, water, tea/coffee</td><td>4 hours</td><td>8,000</td><td><a onclick="openBookingModal('Half-Day Package')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Book</a></td></tr>
+          <tr><td><strong>Full-Day</strong></td><td>Room, Wi-Fi, projector, water, tea/coffee, lunch</td><td>8 hours</td><td>15,000</td><td><a onclick="openBookingModal('Full-Day Package')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Book</a></td></tr>
+          <tr><td><strong>Workshop</strong></td><td>Room, Wi-Fi, projector, water, tea/coffee, 2 breaks</td><td>6 hours</td><td>11,000</td><td><a onclick="openBookingModal('Workshop Package')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Book</a></td></tr>
+          <tr><td><strong>Custom</strong></td><td>Tailored to your needs</td><td>Flexible</td><td>On request</td><td><a onclick="openBookingModal('Custom Package')" class="btn-action btn-view"><i class="fas fa-calendar-plus"></i> Enquire</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== GALLERY (GUEST) ========== -->
+  <div id="page-gallery" class="page">
+    <div class="page-header">
+      <h1>Photo <em>Gallery</em></h1>
+      <p>A glimpse of Moonlight Hotel — rooms, restaurant, and surroundings.</p>
+    </div>
+
+    <!-- GALLERY CAROUSEL -->
+    <div class="carousel-wrapper" id="galleryCarousel">
+      <div class="carousel-track" id="galleryTrack">
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-hotel"></i> Hotel Exterior — Nanyuki</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-bed"></i> Single Room — Comfort & Style</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1590490360182-c33d57733427?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-bed"></i> Double Room — Spacious & Bright</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-utensils"></i> Restaurant — Warm & Welcoming</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-concierge-bell"></i> Dining — Fresh & Delicious</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-chalkboard"></i> Boardroom — Professional Meetings</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-couch"></i> Lounge — Relax & Unwind</div>
+        </div>
+        <div class="carousel-slide" style="background-image:url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=80');">
+          <div class="slide-caption"><i class="fas fa-mountain"></i> Surroundings — Mount Kenya Views</div>
+        </div>
+      </div>
+      <button class="carousel-btn prev" onclick="moveCarousel('gallery', -1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next" onclick="moveCarousel('gallery', 1)"><i class="fas fa-chevron-right"></i></button>
+      <div class="carousel-dots" id="galleryDots">
+        <span class="active" onclick="goToSlide('gallery', 0)"></span>
+        <span onclick="goToSlide('gallery', 1)"></span>
+        <span onclick="goToSlide('gallery', 2)"></span>
+        <span onclick="goToSlide('gallery', 3)"></span>
+        <span onclick="goToSlide('gallery', 4)"></span>
+        <span onclick="goToSlide('gallery', 5)"></span>
+        <span onclick="goToSlide('gallery', 6)"></span>
+        <span onclick="goToSlide('gallery', 7)"></span>
+      </div>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80');"><div class="overlay"><span>Exterior</span></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80');"><div class="overlay"><span>Single Room</span></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80');"><div class="overlay"><span>Double Room</span></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80');"><div class="overlay"><span>Restaurant</span></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80');"><div class="overlay"><span>Dining</span></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=600&q=80');"><div class="overlay"><span>Boardroom</span></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80');"><div class="overlay"><span>Lounge</span></div></div>
+      <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80');"><div class="overlay"><span>Surroundings</span></div></div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-images"></i> Gallery Captions & Categories</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Image</th><th>Category</th><th>Description</th><th>Location</th></tr></thead>
+        <tbody>
+          <tr><td>Exterior View</td><td><span class="badge badge-blue">Property</span></td><td>Moonlight Hotel entrance and facade</td><td>Nanyuki</td></tr>
+          <tr><td>Single Room</td><td><span class="badge badge-green">Rooms</span></td><td>Comfortable single occupancy room</td><td>1st Floor</td></tr>
+          <tr><td>Double Room</td><td><span class="badge badge-green">Rooms</span></td><td>Spacious double sharing room</td><td>2nd Floor</td></tr>
+          <tr><td>Restaurant</td><td><span class="badge badge-amber">Dining</span></td><td>Our on-site restaurant seating area</td><td>Ground Floor</td></tr>
+          <tr><td>Dining Spread</td><td><span class="badge badge-amber">Dining</span></td><td>Freshly prepared meals</td><td>Restaurant</td></tr>
+          <tr><td>Boardroom</td><td><span class="badge badge-purple">Facilities</span></td><td>Conference room for meetings</td><td>Ground Floor</td></tr>
+          <tr><td>Lounge Area</td><td><span class="badge badge-blue">Property</span></td><td>Guest relaxation lounge</td><td>Ground Floor</td></tr>
+          <tr><td>Surroundings</td><td><span class="badge badge-blue">Property</span></td><td>View of Nanyuki and Mount Kenya</td><td>Outdoor</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== ABOUT (GUEST) ========== -->
+  <div id="page-about" class="page">
+    <div class="page-header">
+      <h1>About <em>Moonlight Hotel</em></h1>
+      <p>Comfort, warmth, and generous hospitality at the foot of Mount Kenya.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:center; margin:2rem 0 3rem;">
+      <div style="border-radius:28px; min-height:320px; background-size:cover; background-position:center; background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80');"></div>
+      <div>
+        <h2 style="font-weight:600; font-size:1.8rem; margin-bottom:1rem;">A Comfortable Home in Nanyuki</h2>
+        <p style="color:#4d4038; margin-bottom:1rem;">Moonlight Hotel is conveniently situated in Nanyuki town, behind the G4S Building next to CMC Motors — making it easy to find and easy to get around from.</p>
+        <p style="color:#4d4038; margin-bottom:1rem;">Whether you are here for business, travel, or to explore the beautiful Laikipia region, we are ready to welcome you.</p>
+        <p style="color:#4d4038;">We offer clean, comfortable rooms with breakfast included, a restaurant serving meals throughout the day, and a conference/boardroom facility for meetings and events.</p>
+      </div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-info-circle"></i> Hotel Facts & Information</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Item</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td>Hotel Name</td><td>Moonlight Hotel</td></tr>
+          <tr><td>Location</td><td>Nanyuki, Laikipia County, Kenya</td></tr>
+          <tr><td>Address</td><td>Behind G4S Building, next to CMC Motors</td></tr>
+          <tr><td>Number of Rooms</td><td>36 rooms (Singles, Doubles, Twins)</td></tr>
+          <tr><td>Check-in Time</td><td>12:00 PM</td></tr>
+          <tr><td>Check-out Time</td><td>10:00 AM</td></tr>
+          <tr><td>Breakfast</td><td>Complimentary for all guests</td></tr>
+          <tr><td>Restaurant</td><td>On-site, serves breakfast, lunch & dinner</td></tr>
+          <tr><td>Boardroom</td><td>Available for conferences and meetings</td></tr>
+          <tr><td>Parking</td><td>Free secure on-site parking</td></tr>
+          <tr><td>Wi-Fi</td><td>Free high-speed internet in all areas</td></tr>
+          <tr><td>Payment Methods</td><td>Cash, M-Pesa, Card</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-mountain"></i> Nearby Attractions & Distances</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Attraction</th><th>Distance from Hotel</th><th>Travel Time (Approx.)</th></tr></thead>
+        <tbody>
+          <tr><td>Nanyuki Town Centre</td><td>0.5 km</td><td>5 min walk</td></tr>
+          <tr><td>Mount Kenya National Park</td><td>25 km</td><td>40 min drive</td></tr>
+          <tr><td>Ol Pejeta Conservancy</td><td>20 km</td><td>30 min drive</td></tr>
+          <tr><td>Equator Marker (Nanyuki)</td><td>5 km</td><td>10 min drive</td></tr>
+          <tr><td>Laikipia Plains</td><td>30 km</td><td>45 min drive</td></tr>
+          <tr><td>Nanyuki Airstrip</td><td>8 km</td><td>15 min drive</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== GOOGLE MAP ON ABOUT ===== -->
+    <div class="table-section-title"><i class="fas fa-map-pin"></i> Our Location</div>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.898832748458!2d37.07269431475397!3d-0.01664999993865653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1827b0c1b1b1b1b1%3A0x1b1b1b1b1b1b1b1b!2sNanyuki%2C%20Kenya!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Moonlight Hotel Location - Nanyuki, Kenya">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- ========== CONTACT (GUEST) ========== -->
+  <div id="page-contact" class="page">
+    <div class="page-header">
+      <h1>Contact <em>Us</em></h1>
+      <p>We are here to help — reach out for reservations, inquiries, or directions.</p>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-address-book"></i> Contact Details</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Contact Method</th><th>Details</th><th>Availability</th></tr></thead>
+        <tbody>
+          <tr><td><i class="fas fa-phone-alt" style="color:#b8936a; width:20px;"></i> Phone</td><td>0728 686 682</td><td>24/7</td></tr>
+          <tr><td><i class="fab fa-whatsapp" style="color:#b8936a; width:20px;"></i> WhatsApp</td><td>0728 686 682</td><td>24/7</td></tr>
+          <tr><td><i class="fas fa-envelope" style="color:#b8936a; width:20px;"></i> Email</td><td>info@moonlighthotel.co.ke</td><td>Replies within 24 hrs</td></tr>
+          <tr><td><i class="fas fa-map-marker-alt" style="color:#b8936a; width:20px;"></i> Physical Address</td><td>Behind G4S Building, next to CMC Motors, Nanyuki</td><td>—</td></tr>
+          <tr><td><i class="fas fa-clock" style="color:#b8936a; width:20px;"></i> Reception Hours</td><td>24 hours, 7 days a week</td><td>Always open</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-grid" style="grid-template-columns:1fr 1.2fr;">
+      <div>
+        <div class="info-card" style="margin-bottom:1.5rem;">
+          <i class="fas fa-phone-alt"></i>
+          <h3>Phone / WhatsApp</h3>
+          <p style="font-size:1.2rem; font-weight:600;">0728 686 682</p>
+          <a href="https://wa.me/254728686682" target="_blank" class="btn-primary btn-sm" style="margin-top:1rem;"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h3>Location</h3>
+          <p>Behind G4S Building, next to CMC Motors, Nanyuki, Kenya</p>
+          <p style="margin-top:0.8rem; font-size:0.85rem; color:#6e625a;">We are in Nanyuki town — easy to reach whether you are driving or coming by public transport.</p>
+        </div>
+      </div>
+      <div class="info-card" style="padding:2rem;">
+        <h3 style="margin-bottom:1rem;">Send a Message</h3>
+        <form id="contact-form" onsubmit="event.preventDefault(); showToast('Message sent! We will get back to you shortly.'); this.reset();">
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.85rem; font-weight:500; display:block; margin-bottom:0.3rem;">Name</label>
+            <input type="text" placeholder="Your name" required style="width:100%; padding:0.8rem 1rem; border:1px solid #e8e0d9; border-radius:16px; font-family:'Inter',sans-serif; background:#fef9f3; outline:none;">
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.85rem; font-weight:500; display:block; margin-bottom:0.3rem;">Email</label>
+            <input type="email" placeholder="your@email.com" required style="width:100%; padding:0.8rem 1rem; border:1px solid #e8e0d9; border-radius:16px; font-family:'Inter',sans-serif; background:#fef9f3; outline:none;">
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.85rem; font-weight:500; display:block; margin-bottom:0.3rem;">Subject</label>
+            <select style="width:100%; padding:0.8rem 1rem; border:1px solid #e8e0d9; border-radius:16px; font-family:'Inter',sans-serif; background:#fef9f3; outline:none;">
+              <option>Room Reservation</option>
+              <option>Restaurant Booking</option>
+              <option>Boardroom Enquiry</option>
+              <option>General Inquiry</option>
+              <option>Feedback</option>
+            </select>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="font-size:0.85rem; font-weight:500; display:block; margin-bottom:0.3rem;">Message</label>
+            <textarea placeholder="Tell us how we can help..." rows="4" required style="width:100%; padding:0.8rem 1rem; border:1px solid #e8e0d9; border-radius:16px; font-family:'Inter',sans-serif; background:#fef9f3; outline:none; resize:vertical;"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%; justify-content:center;"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===== GOOGLE MAP ON CONTACT ===== -->
+    <div class="table-section-title"><i class="fas fa-map-pin"></i> Find Us on the Map</div>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.898832748458!2d37.07269431475397!3d-0.01664999993865653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1827b0c1b1b1b1b1%3A0x1b1b1b1b1b1b1b1b!2sNanyuki%2C%20Kenya!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Moonlight Hotel Location - Nanyuki, Kenya">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- ==================== MANAGEMENT DASHBOARD ==================== -->
+
+  <!-- ========== DASHBOARD ========== -->
+  <div id="page-dashboard" class="page">
+    <div class="page-header">
+      <h1>Moonlight <em>Management</em></h1>
+      <p>All departments at a glance — occupancy, revenue, tasks, and staff status.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="number">87%</div><div class="label">Occupancy</div></div>
+      <div class="stat-item"><div class="number">36</div><div class="label">Rooms</div></div>
+      <div class="stat-item"><div class="number">Ksh 184k</div><div class="label">Revenue Today</div></div>
+      <div class="stat-item"><div class="number">18</div><div class="label">Staff On Duty</div></div>
+    </div>
+
+    <div class="dept-grid">
+      <div class="dept-card" onclick="navigateTo('frontdesk')">
+        <i class="fas fa-concierge-bell"></i>
+        <h3>Front Desk</h3>
+        <p>Check-ins, check-outs, reservations, guest inquiries.</p>
+        <div class="dept-meta"><span>8 check-ins</span><span>5 check-outs</span></div>
+      </div>
+      <div class="dept-card" onclick="navigateTo('housekeeping')">
+        <i class="fas fa-broom"></i>
+        <h3>Housekeeping</h3>
+        <p>Room cleaning, linen, maintenance reports, supplies.</p>
+        <div class="dept-meta"><span>14 rooms pending</span><span>5 staff</span></div>
+      </div>
+      <div class="dept-card" onclick="navigateTo('restaurant-mgmt')">
+        <i class="fas fa-utensils"></i>
+        <h3>Restaurant & Bar</h3>
+        <p>Orders, reservations, menu, inventory, billing.</p>
+        <div class="dept-meta"><span>4 active orders</span><span>72% full</span></div>
+      </div>
+      <div class="dept-card" onclick="navigateTo('maintenance')">
+        <i class="fas fa-tools"></i>
+        <h3>Maintenance</h3>
+        <p>Repairs, HVAC, electrical, plumbing, work orders.</p>
+        <div class="dept-meta"><span>3 open tickets</span><span>1 urgent</span></div>
+      </div>
+      <div class="dept-card" onclick="navigateTo('hr')">
+        <i class="fas fa-users"></i>
+        <h3>Human Resources</h3>
+        <p>Staff records, shifts, payroll, recruitment, training.</p>
+        <div class="dept-meta"><span>24 employees</span><span>2 on leave</span></div>
+      </div>
+      <div class="dept-card" onclick="navigateTo('finance')">
+        <i class="fas fa-chart-pie"></i>
+        <h3>Finance</h3>
+        <p>Revenue, expenses, invoices, payroll, reporting.</p>
+        <div class="dept-meta"><span>MTD Ksh 4.2M</span><span>+8% YoY</span></div>
+      </div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-building"></i> Department Status Summary</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Department</th><th>Status</th><th>Key Metric</th><th>Manager</th><th>Staff On Duty</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Front Desk</td><td><span class="badge badge-green">Active</span></td><td>87% occupancy</td><td>Grace W.</td><td>4</td><td><a onclick="navigateTo('frontdesk')" class="btn-action btn-view"><i class="fas fa-eye"></i> View</a></td></tr>
+          <tr><td>Housekeeping</td><td><span class="badge badge-amber">Busy</span></td><td>14 rooms pending</td><td>Peter M.</td><td>5</td><td><a onclick="navigateTo('housekeeping')" class="btn-action btn-view"><i class="fas fa-eye"></i> View</a></td></tr>
+          <tr><td>Restaurant</td><td><span class="badge badge-green">Active</span></td><td>72% capacity</td><td>Chef Amara</td><td>6</td><td><a onclick="navigateTo('restaurant-mgmt')" class="btn-action btn-view"><i class="fas fa-eye"></i> View</a></td></tr>
+          <tr><td>Maintenance</td><td><span class="badge badge-red">1 urgent</span></td><td>3 open tickets</td><td>David K.</td><td>2</td><td><a onclick="navigateTo('maintenance')" class="btn-action btn-view"><i class="fas fa-eye"></i> View</a></td></tr>
+          <tr><td>HR</td><td><span class="badge badge-blue">Normal</span></td><td>24 staff</td><td>Lydia N.</td><td>1</td><td><a onclick="navigateTo('hr')" class="btn-action btn-view"><i class="fas fa-eye"></i> View</a></td></tr>
+          <tr><td>Finance</td><td><span class="badge badge-green">Balanced</span></td><td>MTD Ksh 4.2M</td><td>Samuel O.</td><td>2</td><td><a onclick="navigateTo('finance')" class="btn-action btn-view"><i class="fas fa-eye"></i> View</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-chart-line"></i> Daily Performance (Last 7 Days)</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Date</th><th>Occupancy</th><th>Room Revenue (Ksh)</th><th>Restaurant Revenue (Ksh)</th><th>Total Revenue (Ksh)</th></tr></thead>
+        <tbody>
+          <tr><td>2026-07-06</td><td>82%</td><td>78,400</td><td>38,200</td><td>116,600</td></tr>
+          <tr><td>2026-07-07</td><td>85%</td><td>81,200</td><td>41,500</td><td>122,700</td></tr>
+          <tr><td>2026-07-08</td><td>88%</td><td>84,000</td><td>39,800</td><td>123,800</td></tr>
+          <tr><td>2026-07-09</td><td>86%</td><td>82,100</td><td>43,200</td><td>125,300</td></tr>
+          <tr><td>2026-07-10</td><td>89%</td><td>85,600</td><td>45,100</td><td>130,700</td></tr>
+          <tr><td>2026-07-11</td><td>90%</td><td>86,300</td><td>44,800</td><td>131,100</td></tr>
+          <tr><td>2026-07-12</td><td>87%</td><td>84,200</td><td>42,000</td><td>126,200</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:1rem;">
+      <a onclick="navigateTo('home')" class="btn-outline"><i class="fas fa-arrow-left"></i> Back to Guest Site</a>
+    </div>
+  </div>
+
+  <!-- ========== FRONT DESK (MGMT) ========== -->
+  <div id="page-frontdesk" class="page">
+    <div class="page-header">
+      <h1>Front <em>Desk</em></h1>
+      <p>Guest arrivals, departures, reservations, and concierge services.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="number">8</div><div class="label">Check-ins today</div></div>
+      <div class="stat-item"><div class="number">5</div><div class="label">Check-outs</div></div>
+      <div class="stat-item"><div class="number">14</div><div class="label">Reservations</div></div>
+      <div class="stat-item"><div class="number">2</div><div class="label">VIP arrivals</div></div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-sign-in-alt"></i> Today's Arrivals (Check-ins)
+      <a onclick="openAddBookingModal()" class="btn-action btn-view" style="margin-left:auto;"><i class="fas fa-plus"></i> Add Booking</a>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Nights</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="arrivalsTable">
+          <tr>
+            <td>James Carter</td><td>204</td><td>2026-07-12</td><td>2026-07-15</td><td>3</td><td><span class="badge badge-green">Checked in</span></td>
+            <td><div class="action-group">
+              <button class="btn-action btn-edit" onclick="openEditBookingModal('James Carter')"><i class="fas fa-edit"></i></button>
+              <button class="btn-action btn-cancel" onclick="cancelBooking('James Carter')"><i class="fas fa-ban"></i></button>
+              <button class="btn-action btn-delete" onclick="deleteBooking('James Carter')"><i class="fas fa-trash"></i></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td>Sophia Mwangi</td><td>312</td><td>2026-07-12</td><td>2026-07-14</td><td>2</td><td><span class="badge badge-amber">Pending</span></td>
+            <td><div class="action-group">
+              <button class="btn-action btn-confirm" onclick="confirmBooking('Sophia Mwangi')"><i class="fas fa-check"></i></button>
+              <button class="btn-action btn-edit" onclick="openEditBookingModal('Sophia Mwangi')"><i class="fas fa-edit"></i></button>
+              <button class="btn-action btn-cancel" onclick="cancelBooking('Sophia Mwangi')"><i class="fas fa-ban"></i></button>
+              <button class="btn-action btn-delete" onclick="deleteBooking('Sophia Mwangi')"><i class="fas fa-trash"></i></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td>Liam O'Connor</td><td>108</td><td>2026-07-12</td><td>2026-07-18</td><td>6</td><td><span class="badge badge-green">Checked in</span></td>
+            <td><div class="action-group">
+              <button class="btn-action btn-edit" onclick="openEditBookingModal('Liam O\'Connor')"><i class="fas fa-edit"></i></button>
+              <button class="btn-action btn-cancel" onclick="cancelBooking('Liam O\'Connor')"><i class="fas fa-ban"></i></button>
+              <button class="btn-action btn-delete" onclick="deleteBooking('Liam O\'Connor')"><i class="fas fa-trash"></i></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td>Amina Yusuf</td><td>501</td><td>2026-07-12</td><td>2026-07-13</td><td>1</td><td><span class="badge badge-red">Late checkout</span></td>
+            <td><div class="action-group">
+              <button class="btn-action btn-edit" onclick="openEditBookingModal('Amina Yusuf')"><i class="fas fa-edit"></i></button>
+              <button class="btn-action btn-cancel" onclick="cancelBooking('Amina Yusuf')"><i class="fas fa-ban"></i></button>
+              <button class="btn-action btn-delete" onclick="deleteBooking('Amina Yusuf')"><i class="fas fa-trash"></i></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td>Chen Wei</td><td>220</td><td>2026-07-12</td><td>2026-07-16</td><td>4</td><td><span class="badge badge-green">Checked in</span></td>
+            <td><div class="action-group">
+              <button class="btn-action btn-edit" onclick="openEditBookingModal('Chen Wei')"><i class="fas fa-edit"></i></button>
+              <button class="btn-action btn-cancel" onclick="cancelBooking('Chen Wei')"><i class="fas fa-ban"></i></button>
+              <button class="btn-action btn-delete" onclick="deleteBooking('Chen Wei')"><i class="fas fa-trash"></i></button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-sign-out-alt"></i> Today's Departures (Check-outs)</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Guest</th><th>Room</th><th>Check-out Time</th><th>Balance (Ksh)</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Robert Kip</td><td>110</td><td>10:00 AM</td><td>0</td><td><span class="badge badge-green">Settled</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Check-out completed for Robert Kip')"><i class="fas fa-check"></i> Checkout</button></div></td></tr>
+          <tr><td>Fatima Noor</td><td>305</td><td>10:30 AM</td><td>3,200</td><td><span class="badge badge-amber">Pending payment</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Payment received from Fatima Noor')"><i class="fas fa-money-bill"></i> Pay</button><button class="btn-action btn-view" onclick="showToast('Check-out completed')"><i class="fas fa-check"></i></button></div></td></tr>
+          <tr><td>David Ochieng</td><td>212</td><td>11:00 AM</td><td>0</td><td><span class="badge badge-green">Settled</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Check-out completed for David Ochieng')"><i class="fas fa-check"></i> Checkout</button></div></td></tr>
+          <tr><td>Grace Wanjiru</td><td>401</td><td>12:00 PM</td><td>1,500</td><td><span class="badge badge-amber">Pending payment</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Payment received')"><i class="fas fa-money-bill"></i> Pay</button><button class="btn-action btn-view" onclick="showToast('Check-out completed')"><i class="fas fa-check"></i></button></div></td></tr>
+          <tr><td>Peter Njoroge</td><td>115</td><td>10:00 AM</td><td>0</td><td><span class="badge badge-green">Settled</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Check-out completed')"><i class="fas fa-check"></i> Checkout</button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-calendar-check"></i> Upcoming Reservations</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Guest</th><th>Room Type</th><th>Arrival</th><th>Departure</th><th>Guests</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Sarah Johnson</td><td>Double</td><td>2026-07-13</td><td>2026-07-16</td><td>2</td><td><span class="badge badge-green">Confirmed</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="openEditBookingModal('Sarah Johnson')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="cancelBooking('Sarah Johnson')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="deleteBooking('Sarah Johnson')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Michael Otieno</td><td>Single</td><td>2026-07-13</td><td>2026-07-15</td><td>1</td><td><span class="badge badge-green">Confirmed</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="openEditBookingModal('Michael Otieno')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="cancelBooking('Michael Otieno')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="deleteBooking('Michael Otieno')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Lucy Achieng</td><td>Twin</td><td>2026-07-14</td><td>2026-07-18</td><td>2</td><td><span class="badge badge-amber">Pending</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="confirmBooking('Lucy Achieng')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="openEditBookingModal('Lucy Achieng')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="cancelBooking('Lucy Achieng')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="deleteBooking('Lucy Achieng')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Ahmed Hassan</td><td>Double</td><td>2026-07-14</td><td>2026-07-20</td><td>2</td><td><span class="badge badge-green">Confirmed</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="openEditBookingModal('Ahmed Hassan')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="cancelBooking('Ahmed Hassan')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="deleteBooking('Ahmed Hassan')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Emily Wambui</td><td>Single</td><td>2026-07-15</td><td>2026-07-17</td><td>1</td><td><span class="badge badge-green">Confirmed</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="openEditBookingModal('Emily Wambui')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="cancelBooking('Emily Wambui')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="deleteBooking('Emily Wambui')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin:1rem 0;">
+      <button class="btn-primary" onclick="openAddBookingModal()"><i class="fas fa-plus"></i> New reservation</button>
+      <button class="btn-outline" onclick="showToast('Check-in screen would open.')"><i class="fas fa-sign-in-alt"></i> Check-in guest</button>
+      <button class="btn-outline" onclick="showToast('Check-out screen would open.')"><i class="fas fa-sign-out-alt"></i> Check-out</button>
+    </div>
+    <a onclick="navigateTo('dashboard')" class="btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <!-- ========== HOUSEKEEPING (MGMT) ========== -->
+  <div id="page-housekeeping" class="page">
+    <div class="page-header">
+      <h1>House<em>keeping</em></h1>
+      <p>Room status, cleaning schedule, linen inventory, and maintenance reports.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="number">14</div><div class="label">Rooms to clean</div></div>
+      <div class="stat-item"><div class="number">12</div><div class="label">Clean & ready</div></div>
+      <div class="stat-item"><div class="number">4</div><div class="label">In progress</div></div>
+      <div class="stat-item"><div class="number">5</div><div class="label">Staff on shift</div></div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-door-open"></i> Room Status & Cleaning Schedule</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Room</th><th>Floor</th><th>Status</th><th>Assigned to</th><th>Priority</th><th>Last Cleaned</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>101</td><td>1</td><td><span class="badge badge-green">Clean</span></td><td>Mary A.</td><td>—</td><td>Today 8:30 AM</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Reassigning room 101')"><i class="fas fa-user-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Cleaning record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>102</td><td>1</td><td><span class="badge badge-green">Clean</span></td><td>Mary A.</td><td>—</td><td>Today 8:45 AM</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Reassigning room 102')"><i class="fas fa-user-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Cleaning record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>108</td><td>1</td><td><span class="badge badge-amber">In progress</span></td><td>Peter M.</td><td>Low</td><td>Today 9:00 AM</td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Room 108 marked clean')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="showToast('Reassigning room 108')"><i class="fas fa-user-edit"></i></button></div></td></tr>
+          <tr><td>204</td><td>2</td><td><span class="badge badge-amber">In progress</span></td><td>John K.</td><td>Medium</td><td>Today 9:15 AM</td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Room 204 marked clean')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="showToast('Reassigning room 204')"><i class="fas fa-user-edit"></i></button></div></td></tr>
+          <tr><td>212</td><td>2</td><td><span class="badge badge-green">Clean</span></td><td>Esther W.</td><td>—</td><td>Today 8:00 AM</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Reassigning room 212')"><i class="fas fa-user-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Cleaning record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>305</td><td>3</td><td><span class="badge badge-red">Needs cleaning</span></td><td>—</td><td>High</td><td>Yesterday 4:00 PM</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Task assigned to Mary A.')"><i class="fas fa-user-plus"></i> Assign</button><button class="btn-action btn-delete" onclick="showToast('Task removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>312</td><td>3</td><td><span class="badge badge-red">Needs cleaning</span></td><td>—</td><td>High</td><td>Yesterday 3:30 PM</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Task assigned to John K.')"><i class="fas fa-user-plus"></i> Assign</button><button class="btn-action btn-delete" onclick="showToast('Task removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>401</td><td>4</td><td><span class="badge badge-green">Clean</span></td><td>Mary A.</td><td>—</td><td>Today 7:45 AM</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Reassigning room 401')"><i class="fas fa-user-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Cleaning record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>501</td><td>5</td><td><span class="badge badge-green">Clean</span></td><td>Esther W.</td><td>—</td><td>Today 7:30 AM</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Reassigning room 501')"><i class="fas fa-user-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Cleaning record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-box"></i> Linen & Supplies Inventory</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Item</th><th>Quantity in Stock</th><th>Minimum Required</th><th>Status</th><th>Last Restocked</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Bed Sheets (Single)</td><td>45</td><td>30</td><td><span class="badge badge-green">Sufficient</span></td><td>2026-07-05</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Updating stock')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Bed Sheets (Double)</td><td>38</td><td>25</td><td><span class="badge badge-green">Sufficient</span></td><td>2026-07-05</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Updating stock')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Pillowcases</td><td>62</td><td>50</td><td><span class="badge badge-green">Sufficient</span></td><td>2026-07-05</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Updating stock')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Bath Towels</td><td>40</td><td>45</td><td><span class="badge badge-red">Low stock</span></td><td>2026-06-28</td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Reorder placed for Bath Towels')"><i class="fas fa-cart-plus"></i></button><button class="btn-action btn-edit" onclick="showToast('Updating stock')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td>Hand Towels</td><td>55</td><td>40</td><td><span class="badge badge-green">Sufficient</span></td><td>2026-07-05</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Updating stock')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Toilet Paper (rolls)</td><td>120</td><td>100</td><td><span class="badge badge-green">Sufficient</span></td><td>2026-07-08</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Updating stock')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Shampoo / Soap</td><td>80</td><td>60</td><td><span class="badge badge-green">Sufficient</span></td><td>2026-07-08</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Updating stock')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Cleaning Detergent (L)</td><td>15</td><td>20</td><td><span class="badge badge-amber">Reorder soon</span></td><td>2026-07-01</td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Reorder placed for Detergent')"><i class="fas fa-cart-plus"></i></button><button class="btn-action btn-edit" onclick="showToast('Updating stock')"><i class="fas fa-edit"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-users"></i> Housekeeping Staff Shifts</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Staff Name</th><th>Shift</th><th>Assigned Floors</th><th>Rooms Today</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Mary A.</td><td>Morning (6 AM – 2 PM)</td><td>1, 4</td><td>8</td><td><span class="badge badge-green">On duty</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing shift for Mary A.')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Shift removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Peter M.</td><td>Morning (6 AM – 2 PM)</td><td>1, 2</td><td>6</td><td><span class="badge badge-green">On duty</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing shift for Peter M.')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Shift removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>John K.</td><td>Morning (6 AM – 2 PM)</td><td>2, 3</td><td>7</td><td><span class="badge badge-green">On duty</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing shift for John K.')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Shift removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Esther W.</td><td>Morning (6 AM – 2 PM)</td><td>2, 5</td><td>6</td><td><span class="badge badge-green">On duty</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing shift for Esther W.')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Shift removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Faith N.</td><td>Afternoon (2 PM – 10 PM)</td><td>All floors</td><td>5</td><td><span class="badge badge-amber">Starts at 2 PM</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing shift for Faith N.')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Shift removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin:1rem 0;">
+      <button class="btn-primary" onclick="showToast('Assign cleaning task form would open.')"><i class="fas fa-tasks"></i> Assign task</button>
+      <button class="btn-outline" onclick="showToast('Linen inventory report would open.')"><i class="fas fa-box"></i> Linen inventory</button>
+    </div>
+    <a onclick="navigateTo('dashboard')" class="btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <!-- ========== RESTAURANT (MGMT) ========== -->
+  <div id="page-restaurant-mgmt" class="page">
+    <div class="page-header">
+      <h1>Restaurant <em>& Bar</em></h1>
+      <p>Orders, reservations, menu management, and billing.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="number">4</div><div class="label">Active orders</div></div>
+      <div class="stat-item"><div class="number">10</div><div class="label">Reservations</div></div>
+      <div class="stat-item"><div class="number">Ksh 42k</div><div class="label">Today's sales</div></div>
+      <div class="stat-item"><div class="number">72%</div><div class="label">Capacity</div></div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-receipt"></i> Active Orders</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Table</th><th>Order</th><th>Status</th><th>Waiter</th><th>Total (Ksh)</th><th>Time Ordered</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>T1</td><td>Grilled chicken, salad</td><td><span class="badge badge-amber">Preparing</span></td><td>Faith N.</td><td>850</td><td>12:15 PM</td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Order marked served')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing order T1')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Order T1 cancelled')"><i class="fas fa-ban"></i></button></div></td></tr>
+          <tr><td>T4</td><td>Pasta, wine</td><td><span class="badge badge-green">Served</span></td><td>Brian O.</td><td>1,200</td><td>12:05 PM</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing order T4')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Order T4 cancelled')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Order T4 deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>T7</td><td>Beef steak, juice</td><td><span class="badge badge-blue">New</span></td><td>Mercy W.</td><td>1,200</td><td>12:30 PM</td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Order confirmed')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing order T7')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Order T7 cancelled')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Order T7 deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>T2</td><td>Fish & chips</td><td><span class="badge badge-green">Served</span></td><td>Faith N.</td><td>900</td><td>11:55 AM</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing order T2')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Order T2 cancelled')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Order T2 deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>T9</td><td>Cocktails</td><td><span class="badge badge-amber">Preparing</span></td><td>Brian O.</td><td>650</td><td>12:25 PM</td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Order marked served')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing order T9')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Order T9 cancelled')"><i class="fas fa-ban"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-calendar-alt"></i> Today's Reservations</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Guest Name</th><th>Time</th><th>Party Size</th><th>Table</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Mr. & Mrs. Kamau</td><td>1:00 PM</td><td>2</td><td>T5</td><td><span class="badge badge-green">Confirmed</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing reservation')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Reservation cancelled')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Reservation deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Nanyuki Business Group</td><td>1:30 PM</td><td>8</td><td>T10-T12</td><td><span class="badge badge-green">Confirmed</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing reservation')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Reservation cancelled')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Reservation deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Ms. Atieno</td><td>7:00 PM</td><td>4</td><td>T6</td><td><span class="badge badge-green">Confirmed</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing reservation')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Reservation cancelled')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Reservation deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Mr. Kiprop</td><td>7:30 PM</td><td>2</td><td>T3</td><td><span class="badge badge-amber">Pending</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Reservation confirmed')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing reservation')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Reservation cancelled')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Reservation deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Hotel Guests (Buffet)</td><td>7:00 PM</td><td>12</td><td>Main Hall</td><td><span class="badge badge-green">Confirmed</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing reservation')"><i class="fas fa-edit"></i></button><button class="btn-action btn-cancel" onclick="showToast('Reservation cancelled')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Reservation deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-book-open"></i> Menu Items (Management View)</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Item</th><th>Category</th><th>Cost Price (Ksh)</th><th>Selling Price (Ksh)</th><th>Margin</th><th>Available</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Grilled Chicken & Salad</td><td>Main</td><td>420</td><td>850</td><td>50.6%</td><td><span class="badge badge-green">Yes</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing menu item')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Menu item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Beef Steak with Fries</td><td>Main</td><td>620</td><td>1,200</td><td>48.3%</td><td><span class="badge badge-green">Yes</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing menu item')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Menu item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Fish & Chips</td><td>Main</td><td>450</td><td>900</td><td>50.0%</td><td><span class="badge badge-green">Yes</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing menu item')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Menu item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Vegetable Pasta</td><td>Main</td><td>320</td><td>750</td><td>57.3%</td><td><span class="badge badge-green">Yes</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing menu item')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Menu item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Beef Burger</td><td>Main</td><td>400</td><td>800</td><td>50.0%</td><td><span class="badge badge-amber">Low stock</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing menu item')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Menu item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Chicken Curry & Rice</td><td>Main</td><td>480</td><td>950</td><td>49.5%</td><td><span class="badge badge-green">Yes</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing menu item')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Menu item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Chocolate Cake</td><td>Dessert</td><td>180</td><td>400</td><td>55.0%</td><td><span class="badge badge-green">Yes</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing menu item')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Menu item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Fresh Juice</td><td>Beverage</td><td>100</td><td>250</td><td>60.0%</td><td><span class="badge badge-green">Yes</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing menu item')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Menu item removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin:1rem 0;">
+      <button class="btn-primary" onclick="showToast('New order screen would open.')"><i class="fas fa-plus"></i> New order</button>
+      <button class="btn-outline" onclick="showToast('Menu management would open.')"><i class="fas fa-book-open"></i> Menu</button>
+    </div>
+    <a onclick="navigateTo('dashboard')" class="btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <!-- ========== MAINTENANCE (MGMT) ========== -->
+  <div id="page-maintenance" class="page">
+    <div class="page-header">
+      <h1>Main<em>tenance</em></h1>
+      <p>Work orders, repairs, HVAC, electrical, and plumbing.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="number">3</div><div class="label">Open tickets</div></div>
+      <div class="stat-item"><div class="number">1</div><div class="label">Urgent</div></div>
+      <div class="stat-item"><div class="number">8</div><div class="label">Completed this week</div></div>
+      <div class="stat-item"><div class="number">2</div><div class="label">Technicians</div></div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-clipboard-list"></i> Open Work Orders</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Ticket</th><th>Location</th><th>Issue</th><th>Priority</th><th>Assigned</th><th>Reported</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>#M101</td><td>Room 204</td><td>AC not cooling</td><td><span class="badge badge-red">Urgent</span></td><td>David K.</td><td>Today 9:00 AM</td><td><span class="badge badge-amber">In progress</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Ticket #M101 marked resolved')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing ticket #M101')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Ticket #M101 deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>#M102</td><td>Lobby</td><td>Light flickering</td><td><span class="badge badge-amber">Medium</span></td><td>John M.</td><td>Today 10:30 AM</td><td><span class="badge badge-blue">Open</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Ticket #M102 assigned')"><i class="fas fa-user-plus"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing ticket #M102')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Ticket #M102 deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>#M103</td><td>Room 312</td><td>Leaking faucet</td><td><span class="badge badge-amber">Medium</span></td><td>David K.</td><td>Yesterday 3:00 PM</td><td><span class="badge badge-amber">In progress</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Ticket #M103 marked resolved')"><i class="fas fa-check"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing ticket #M103')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Ticket #M103 deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-check-circle"></i> Completed Work Orders (This Week)</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Ticket</th><th>Location</th><th>Issue</th><th>Assigned</th><th>Completed</th><th>Cost (Ksh)</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>#M095</td><td>Room 108</td><td>Broken window latch</td><td>John M.</td><td>2026-07-11</td><td>800</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing ticket #M095')"><i class="fas fa-eye"></i></button><button class="btn-action btn-delete" onclick="showToast('Record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>#M096</td><td>Restaurant</td><td>Faulty socket</td><td>David K.</td><td>2026-07-11</td><td>500</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing ticket #M096')"><i class="fas fa-eye"></i></button><button class="btn-action btn-delete" onclick="showToast('Record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>#M097</td><td>Room 401</td><td>Shower head replacement</td><td>John M.</td><td>2026-07-10</td><td>1,200</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing ticket #M097')"><i class="fas fa-eye"></i></button><button class="btn-action btn-delete" onclick="showToast('Record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>#M098</td><td>Corridor 2F</td><td>Door hinge repair</td><td>David K.</td><td>2026-07-10</td><td>300</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing ticket #M098')"><i class="fas fa-eye"></i></button><button class="btn-action btn-delete" onclick="showToast('Record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>#M099</td><td>Kitchen</td><td>Drain unclogging</td><td>John M.</td><td>2026-07-09</td><td>1,500</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing ticket #M099')"><i class="fas fa-eye"></i></button><button class="btn-action btn-delete" onclick="showToast('Record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>#M100</td><td>Room 501</td><td>TV signal issue</td><td>David K.</td><td>2026-07-09</td><td>0</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing ticket #M100')"><i class="fas fa-eye"></i></button><button class="btn-action btn-delete" onclick="showToast('Record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-cogs"></i> Equipment Status</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Equipment</th><th>Location</th><th>Last Serviced</th><th>Next Service Due</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Generator</td><td>Basement</td><td>2026-06-15</td><td>2026-09-15</td><td><span class="badge badge-green">Operational</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Generator record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Equipment record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Water Pump</td><td>Rooftop</td><td>2026-07-01</td><td>2026-10-01</td><td><span class="badge badge-green">Operational</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Water Pump record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Equipment record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>HVAC System</td><td>All floors</td><td>2026-06-20</td><td>2026-09-20</td><td><span class="badge badge-amber">Monitor</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Service scheduled for HVAC')"><i class="fas fa-calendar"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing HVAC record')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td>Elevator</td><td>Main building</td><td>2026-07-05</td><td>2026-10-05</td><td><span class="badge badge-green">Operational</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Elevator record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Equipment record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Kitchen Refrigerator</td><td>Kitchen</td><td>2026-06-28</td><td>2026-09-28</td><td><span class="badge badge-red">Noisy — inspect</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Work order created for Refrigerator')"><i class="fas fa-tools"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing Refrigerator record')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td>Pool Pump</td><td>Pool area</td><td>2026-06-10</td><td>2026-09-10</td><td><span class="badge badge-amber">Due soon</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Service scheduled for Pool Pump')"><i class="fas fa-calendar"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing Pool Pump record')"><i class="fas fa-edit"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin:1rem 0;">
+      <button class="btn-primary" onclick="showToast('New work order form would open.')"><i class="fas fa-plus"></i> New work order</button>
+      <button class="btn-outline" onclick="showToast('View technician schedule.')"><i class="fas fa-calendar"></i> Schedule</button>
+    </div>
+    <a onclick="navigateTo('dashboard')" class="btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <!-- ========== HR (MGMT) ========== -->
+  <div id="page-hr" class="page">
+    <div class="page-header">
+      <h1>Human <em>Resources</em></h1>
+      <p>Staff records, shifts, payroll, recruitment, and training.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="number">24</div><div class="label">Employees</div></div>
+      <div class="stat-item"><div class="number">2</div><div class="label">On leave</div></div>
+      <div class="stat-item"><div class="number">4</div><div class="label">Open positions</div></div>
+      <div class="stat-item"><div class="number">Ksh 680k</div><div class="label">Monthly payroll</div></div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-id-card"></i> Employee Directory</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Name</th><th>Department</th><th>Role</th><th>Shift</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Grace W.</td><td>Front Desk</td><td>Manager</td><td>Morning</td><td>0712 345 678</td><td><span class="badge badge-green">Active</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Grace W. record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Employee record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Peter M.</td><td>Housekeeping</td><td>Supervisor</td><td>Morning</td><td>0723 456 789</td><td><span class="badge badge-green">Active</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Peter M. record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Employee record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Chef Amara</td><td>Restaurant</td><td>Head Chef</td><td>Split</td><td>0734 567 890</td><td><span class="badge badge-green">Active</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Chef Amara record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Employee record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>David K.</td><td>Maintenance</td><td>Technician</td><td>Evening</td><td>0745 678 901</td><td><span class="badge badge-amber">On leave</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing David K. record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Employee record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Lydia N.</td><td>HR</td><td>HR Officer</td><td>Morning</td><td>0756 789 012</td><td><span class="badge badge-green">Active</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Lydia N. record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Employee record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Samuel O.</td><td>Finance</td><td>Accountant</td><td>Morning</td><td>0767 890 123</td><td><span class="badge badge-green">Active</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Samuel O. record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Employee record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Mary A.</td><td>Housekeeping</td><td>Room Attendant</td><td>Morning</td><td>0778 901 234</td><td><span class="badge badge-green">Active</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Mary A. record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Employee record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Faith N.</td><td>Restaurant</td><td>Waiter</td><td>Afternoon</td><td>0789 012 345</td><td><span class="badge badge-amber">On leave</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing Faith N. record')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Employee record removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-money-bill-wave"></i> Payroll Summary (July 2026)</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Department</th><th>Employees</th><th>Gross Pay (Ksh)</th><th>Deductions (Ksh)</th><th>Net Pay (Ksh)</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Front Desk</td><td>4</td><td>120,000</td><td>18,000</td><td>102,000</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing payroll details')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing payroll record')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td>Housekeeping</td><td>6</td><td>150,000</td><td>22,500</td><td>127,500</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing payroll details')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing payroll record')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td>Restaurant</td><td>7</td><td>185,000</td><td>27,750</td><td>157,250</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing payroll details')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing payroll record')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td>Maintenance</td><td>3</td><td>105,000</td><td>15,750</td><td>89,250</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing payroll details')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing payroll record')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td>HR & Admin</td><td>2</td><td>70,000</td><td>10,500</td><td>59,500</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing payroll details')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing payroll record')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td>Finance</td><td>2</td><td>50,000</td><td>7,500</td><td>42,500</td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing payroll details')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing payroll record')"><i class="fas fa-edit"></i></button></div></td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>24</strong></td><td><strong>680,000</strong></td><td><strong>102,000</strong></td><td><strong>578,000</strong></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-calendar-minus"></i> Leave Requests</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Employee</th><th>Department</th><th>Leave Type</th><th>From</th><th>To</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>David K.</td><td>Maintenance</td><td>Annual Leave</td><td>2026-07-08</td><td>2026-07-15</td><td><span class="badge badge-green">Approved</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing leave request')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Leave request removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Faith N.</td><td>Restaurant</td><td>Sick Leave</td><td>2026-07-11</td><td>2026-07-13</td><td><span class="badge badge-green">Approved</span></td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing leave request')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Leave request removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>John K.</td><td>Housekeeping</td><td>Annual Leave</td><td>2026-07-20</td><td>2026-07-27</td><td><span class="badge badge-amber">Pending</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Leave approved for John K.')"><i class="fas fa-check"></i></button><button class="btn-action btn-cancel" onclick="showToast('Leave rejected')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Leave request removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Mercy W.</td><td>Restaurant</td><td>Compassionate</td><td>2026-07-18</td><td>2026-07-20</td><td><span class="badge badge-amber">Pending</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Leave approved for Mercy W.')"><i class="fas fa-check"></i></button><button class="btn-action btn-cancel" onclick="showToast('Leave rejected')"><i class="fas fa-ban"></i></button><button class="btn-action btn-delete" onclick="showToast('Leave request removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-user-plus"></i> Open Positions</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Position</th><th>Department</th><th>Type</th><th>Posted</th><th>Applicants</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Room Attendant</td><td>Housekeeping</td><td>Full-time</td><td>2026-07-01</td><td>12</td><td><span class="badge badge-blue">Interviewing</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing applicants')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing position')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Position closed/removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Waiter / Waitress</td><td>Restaurant</td><td>Full-time</td><td>2026-07-05</td><td>8</td><td><span class="badge badge-blue">Interviewing</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing applicants')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing position')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Position closed/removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Maintenance Technician</td><td>Maintenance</td><td>Full-time</td><td>2026-07-08</td><td>5</td><td><span class="badge badge-amber">Screening</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing applicants')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing position')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Position closed/removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>Front Desk Agent</td><td>Front Desk</td><td>Full-time</td><td>2026-07-10</td><td>15</td><td><span class="badge badge-amber">Screening</span></td><td><div class="action-group"><button class="btn-action btn-view" onclick="showToast('Viewing applicants')"><i class="fas fa-eye"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing position')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Position closed/removed')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin:1rem 0;">
+      <button class="btn-primary" onclick="showToast('Add new employee form would open.')"><i class="fas fa-user-plus"></i> Add employee</button>
+      <button class="btn-outline" onclick="showToast('Payroll report would open.')"><i class="fas fa-file-invoice-dollar"></i> Payroll</button>
+    </div>
+    <a onclick="navigateTo('dashboard')" class="btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <!-- ========== FINANCE (MGMT) ========== -->
+  <div id="page-finance" class="page">
+    <div class="page-header">
+      <h1>Fin<em>ance</em></h1>
+      <p>Revenue, expenses, invoices, payroll, and financial reporting.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="number">Ksh 4.2M</div><div class="label">MTD Revenue</div></div>
+      <div class="stat-item"><div class="number">Ksh 2.1M</div><div class="label">MTD Expenses</div></div>
+      <div class="stat-item"><div class="number">+8%</div><div class="label">YoY Growth</div></div>
+      <div class="stat-item"><div class="number">Ksh 680k</div><div class="label">Payroll</div></div>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-exchange-alt"></i> Recent Transactions</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Date</th><th>Description</th><th>Department</th><th>Type</th><th>Amount (Ksh)</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>2026-07-12</td><td>Room revenue</td><td>Front Desk</td><td><span class="badge badge-green">Income</span></td><td>84,200</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing transaction')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Transaction deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>2026-07-12</td><td>Restaurant sales</td><td>Restaurant</td><td><span class="badge badge-green">Income</span></td><td>42,000</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing transaction')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Transaction deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>2026-07-11</td><td>Maintenance supplies</td><td>Maintenance</td><td><span class="badge badge-red">Expense</span></td><td>12,400</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing transaction')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Transaction deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>2026-07-11</td><td>Payroll advance</td><td>HR</td><td><span class="badge badge-red">Expense</span></td><td>22,000</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing transaction')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Transaction deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>2026-07-10</td><td>Corporate booking</td><td>Front Desk</td><td><span class="badge badge-green">Income</span></td><td>48,000</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing transaction')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Transaction deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>2026-07-10</td><td>Electricity bill</td><td>Operations</td><td><span class="badge badge-red">Expense</span></td><td>35,000</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing transaction')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Transaction deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>2026-07-09</td><td>Restaurant supplies</td><td>Restaurant</td><td><span class="badge badge-red">Expense</span></td><td>18,500</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing transaction')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Transaction deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>2026-07-09</td><td>Room revenue</td><td>Front Desk</td><td><span class="badge badge-green">Income</span></td><td>82,100</td><td><div class="action-group"><button class="btn-action btn-edit" onclick="showToast('Editing transaction')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Transaction deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-calendar-alt"></i> Monthly Financial Summary (2026)</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Month</th><th>Revenue (Ksh)</th><th>Expenses (Ksh)</th><th>Profit (Ksh)</th><th>Margin</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>January</td><td>2,800,000</td><td>1,600,000</td><td>1,200,000</td><td>42.9%</td><td><button class="btn-action btn-view" onclick="showToast('Viewing January report')"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td>February</td><td>2,950,000</td><td>1,650,000</td><td>1,300,000</td><td>44.1%</td><td><button class="btn-action btn-view" onclick="showToast('Viewing February report')"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td>March</td><td>3,200,000</td><td>1,750,000</td><td>1,450,000</td><td>45.3%</td><td><button class="btn-action btn-view" onclick="showToast('Viewing March report')"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td>April</td><td>3,400,000</td><td>1,800,000</td><td>1,600,000</td><td>47.1%</td><td><button class="btn-action btn-view" onclick="showToast('Viewing April report')"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td>May</td><td>3,600,000</td><td>1,900,000</td><td>1,700,000</td><td>47.2%</td><td><button class="btn-action btn-view" onclick="showToast('Viewing May report')"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td>June</td><td>3,900,000</td><td>2,000,000</td><td>1,900,000</td><td>48.7%</td><td><button class="btn-action btn-view" onclick="showToast('Viewing June report')"><i class="fas fa-eye"></i></button></td></tr>
+          <tr><td><strong>July (MTD)</strong></td><td><strong>4,200,000</strong></td><td><strong>2,100,000</strong></td><td><strong>2,100,000</strong></td><td><strong>50.0%</strong></td><td><button class="btn-action btn-view" onclick="showToast('Viewing July report')"><i class="fas fa-eye"></i></button></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-section-title"><i class="fas fa-file-invoice"></i> Outstanding Invoices</div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Invoice #</th><th>Client / Guest</th><th>Description</th><th>Amount (Ksh)</th><th>Due Date</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>INV-2026-0451</td><td>Nanyuki Business Group</td><td>Boardroom full-day package</td><td>15,000</td><td>2026-07-15</td><td><span class="badge badge-amber">Pending</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Invoice marked paid')"><i class="fas fa-money-bill"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing invoice')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Invoice deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>INV-2026-0452</td><td>Fatima Noor</td><td>Room 305 — 3 nights</td><td>9,000</td><td>2026-07-13</td><td><span class="badge badge-amber">Pending</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Invoice marked paid')"><i class="fas fa-money-bill"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing invoice')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Invoice deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>INV-2026-0453</td><td>Grace Wanjiru</td><td>Room 401 — 2 nights</td><td>5,000</td><td>2026-07-13</td><td><span class="badge badge-red">Overdue</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Invoice marked paid')"><i class="fas fa-money-bill"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing invoice')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Invoice deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+          <tr><td>INV-2026-0454</td><td>County Government</td><td>Conference package</td><td>45,000</td><td>2026-07-20</td><td><span class="badge badge-blue">Processing</span></td><td><div class="action-group"><button class="btn-action btn-confirm" onclick="showToast('Invoice marked paid')"><i class="fas fa-money-bill"></i></button><button class="btn-action btn-edit" onclick="showToast('Editing invoice')"><i class="fas fa-edit"></i></button><button class="btn-action btn-delete" onclick="showToast('Invoice deleted')"><i class="fas fa-trash"></i></button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin:1rem 0;">
+      <button class="btn-primary" onclick="showToast('New invoice form would open.')"><i class="fas fa-file-invoice"></i> New invoice</button>
+      <button class="btn-outline" onclick="showToast('Financial report would open.')"><i class="fas fa-chart-bar"></i> Reports</button>
+    </div>
+    <a onclick="navigateTo('dashboard')" class="btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <div class="footer">
+    <div><span style="font-weight:600;color:#24201e;">Moonlight Hotel</span> · Nanyuki, Kenya — <span style="font-size:0.8rem;">© 2026</span></div>
+    <div class="footer-socials">
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+    <div style="font-size:0.8rem; display:flex; gap:1rem;">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms & Conditions</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODALS ==================== -->
+
+<!-- Booking Modal (Add/Edit) -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <h3 id="bookingModalTitle"><i class="fas fa-calendar-plus" style="color:#b8936a;"></i> New Booking</h3>
+    <form id="bookingForm" onsubmit="event.preventDefault(); closeModal('bookingModal'); showToast('Booking saved successfully!');">
+      <div class="form-group">
+        <label>Guest Name</label>
+        <input type="text" id="bookGuest" placeholder="e.g. James Carter" required>
+      </div>
+      <div class="form-group">
+        <label>Booking Type</label>
+        <select id="bookType">
+          <option>Room Reservation</option>
+          <option>Restaurant Reservation</option>
+          <option>Boardroom Booking</option>
+          <option>Extra Bed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Room / Table / Facility</label>
+        <input type="text" id="bookRoom" placeholder="e.g. Room 204 / Table T5 / Boardroom">
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+        <div class="form-group">
+          <label>Check-in / Date</label>
+          <input type="date" id="bookCheckin">
+        </div>
+        <div class="form-group">
+          <label>Check-out / Date</label>
+          <input type="date" id="bookCheckout">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Number of Guests</label>
+        <input type="number" id="bookGuests" value="1" min="1" max="20">
+      </div>
+      <div class="form-group">
+        <label>Special Requests</label>
+        <textarea id="bookNotes" rows="2" placeholder="Any special requests..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-outline btn-sm" onclick="closeModal('bookingModal')">Cancel</button>
+        <button type="submit" class="btn-primary btn-sm"><i class="fas fa-save"></i> Save Booking</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <h3><i class="fas fa-exclamation-triangle" style="color:#b33a3a;"></i> Confirm Delete</h3>
+    <p style="color:#5e5248; margin-bottom:1.5rem;">Are you sure you want to delete this record? This action cannot be undone.</p>
+    <p id="deleteTargetName" style="font-weight:600; margin-bottom:1.5rem; color:#1e1b19;"></p>
+    <div class="modal-actions">
+      <button type="button" class="btn-outline btn-sm" onclick="closeModal('deleteModal')">Cancel</button>
+      <button type="button" class="btn-primary btn-sm" style="background:#b33a3a;" onclick="confirmDelete()"><i class="fas fa-trash"></i> Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cancel Confirmation Modal -->
+<div class="modal-overlay" id="cancelModal">
+  <div class="modal">
+    <h3><i class="fas fa-ban" style="color:#b17d3a;"></i> Confirm Cancellation</h3>
+    <p style="color:#5e5248; margin-bottom:1.5rem;">Are you sure you want to cancel this booking?</p>
+    <p id="cancelTargetName" style="font-weight:600; margin-bottom:1.5rem; color:#1e1b19;"></p>
+    <div class="modal-actions">
+      <button type="button" class="btn-outline btn-sm" onclick="closeModal('cancelModal')">Keep Booking</button>
+      <button type="button" class="btn-primary btn-sm" style="background:#b17d3a;" onclick="confirmCancel()"><i class="fas fa-ban"></i> Cancel Booking</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast">
+  <i class="fas fa-check-circle"></i>
+  <span id="toastMessage">Action completed successfully.</span>
+</div>
+
+<script>
+  // ========================== NAVIGATION ==========================
+  function navigateTo(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    let pageId = 'page-' + page;
+    if (page === 'restaurant-mgmt') pageId = 'page-restaurant-mgmt';
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+    const navMap = {
+      'home': 'nav-home', 'rooms': 'nav-rooms', 'restaurant': 'nav-restaurant',
+      'boardroom': 'nav-boardroom', 'gallery': 'nav-gallery', 'about': 'nav-about',
+      'contact': 'nav-contact', 'dashboard': 'nav-dashboard', 'frontdesk': 'nav-dashboard',
+      'housekeeping': 'nav-dashboard', 'restaurant-mgmt': 'nav-dashboard',
+      'maintenance': 'nav-dashboard', 'hr': 'nav-dashboard', 'finance': 'nav-dashboard'
+    };
+    const navId = navMap[page];
+    if (navId) { const link = document.getElementById(navId); if (link) link.classList.add('active'); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ========================== TOAST ==========================
+  let toastTimer;
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMessage').textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ========================== MODALS ==========================
+  function openModal(id) { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  // ========================== BOOKING MODALS ==========================
+  function openBookingModal(type) {
+    document.getElementById('bookingModalTitle').innerHTML = '<i class="fas fa-calendar-plus" style="color:#b8936a;"></i> New Booking — ' + type;
+    document.getElementById('bookingForm').reset();
+    document.getElementById('bookType').value = type.includes('Room') ? 'Room Reservation' :
+      type.includes('Table') ? 'Restaurant Reservation' :
+      type.includes('Boardroom') || type.includes('Package') ? 'Boardroom Booking' : 'Room Reservation';
+    openModal('bookingModal');
+  }
+
+  function openAddBookingModal() {
+    document.getElementById('bookingModalTitle').innerHTML = '<i class="fas fa-calendar-plus" style="color:#b8936a;"></i> New Booking';
+    document.getElementById('bookingForm').reset();
+    openModal('bookingModal');
+  }
+
+  function openEditBookingModal(name) {
+    document.getElementById('bookingModalTitle').innerHTML = '<i class="fas fa-edit" style="color:#b8936a;"></i> Edit Booking — ' + name;
+    document.getElementById('bookGuest').value = name;
+    openModal('bookingModal');
+  }
+
+  // ========================== DELETE & CANCEL ==========================
+  let pendingDelete = null;
+  let pendingCancel = null;
+
+  function deleteBooking(name) {
+    pendingDelete = name;
+    document.getElementById('deleteTargetName').textContent = 'Guest: ' + name;
+    openModal('deleteModal');
+  }
+
+  function confirmDelete() {
+    closeModal('deleteModal');
+    showToast('Booking for ' + pendingDelete + ' has been deleted.');
+    pendingDelete = null;
+  }
+
+  function cancelBooking(name) {
+    pendingCancel = name;
+    document.getElementById('cancelTargetName').textContent = 'Guest: ' + name;
+    openModal('cancelModal');
+  }
+
+  function confirmCancel() {
+    closeModal('cancelModal');
+    showToast('Booking for ' + pendingCancel + ' has been cancelled.');
+    pendingCancel = null;
+  }
+
+  function confirmBooking(name) {
+    showToast('Booking for ' + name + ' has been confirmed.');
+  }
+
+  // ========================== CAROUSEL LOGIC ==========================
+  const carousels = {
+    hero: { current: 0, total: 4, trackId: 'heroTrack', dotsId: 'heroDots' },
+    rooms: { current: 0, total: 4, trackId: 'roomsTrack', dotsId: 'roomsDots' },
+    restaurant: { current: 0, total: 3, trackId: 'restaurantTrack', dotsId: 'restaurantDots' },
+    boardroom: { current: 0, total: 3, trackId: 'boardroomTrack', dotsId: 'boardroomDots' },
+    gallery: { current: 0, total: 8, trackId: 'galleryTrack', dotsId: 'galleryDots' }
+  };
+
+  function updateCarousel(name) {
+    const c = carousels[name];
+    if (!c) return;
+    const track = document.getElementById(c.trackId);
+    if (!track) return;
+    track.style.transform = 'translateX(-' + (c.current * 100) + '%)';
+    const dots = document.getElementById(c.dotsId);
+    if (dots) {
+      const spans = dots.querySelectorAll('span');
+      spans.forEach((s, i) => s.classList.toggle('active', i === c.current));
+    }
+  }
+
+  function moveCarousel(name, dir) {
+    const c = carousels[name];
+    if (!c) return;
+    c.current = (c.current + dir + c.total) % c.total;
+    updateCarousel(name);
+  }
+
+  function goToSlide(name, index) {
+    const c = carousels[name];
+    if (!c) return;
+    if (index < 0) index = 0;
+    if (index >= c.total) index = c.total - 1;
+    c.current = index;
+    updateCarousel(name);
+  }
+
+  // Auto-advance hero carousel every 6 seconds
+  setInterval(() => {
+    moveCarousel('hero', 1);
+  }, 6000);
+
+  // ========================== CLOSE MODAL ON OVERLAY CLICK ==========================
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+  });
+
+  // ========================== INIT ==========================
+  document.addEventListener('DOMContentLoaded', function() { 
+    navigateTo('home'); 
+    // Initialize all carousels
+    Object.keys(carousels).forEach(name => updateCarousel(name));
+  });
+</script>
+</body>
+</html>
